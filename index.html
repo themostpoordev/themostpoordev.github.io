@@ -17,7 +17,7 @@
             transition: background 0.5s ease;
         }
 
-        /* --- 🏁 ลายคาร์บอนไฟเบอร์สมจริง (Real Carbon Weave Pattern) 🏁 --- */
+        /* --- 🏁 ลายคาร์บอนไฟเบอร์สมจริง 🏁 --- */
         .bg-carbon {
             background:
                 linear-gradient(27deg, #151515 5px, transparent 5px) 0 5px,
@@ -30,13 +30,12 @@
             background-size: 20px 20px;
         }
 
-        /* --- เอฟเฟกต์แสง Flash ตอนเปลี่ยนหน้า --- */
         #flash {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #fff; z-index: 999; display: none; opacity: 1; pointer-events: none;
         }
 
-        /* --- หน้า Enter Screen (Shift Light สีแดง) --- */
+        /* --- หน้า Enter Screen --- */
         #intro {
             height: 100vh; width: 100%;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
@@ -57,7 +56,7 @@
         .enter-text { font-size: 20px; font-weight: bold; letter-spacing: 4px; color: #444; transition: color 0.3s; text-transform: uppercase; }
         #intro:hover .enter-text { color: #fff; text-shadow: 0 0 10px #ff0000; }
 
-        /* --- หน้าหลัก (Main Page) --- */
+        /* --- หน้าหลัก --- */
         #main {
             display: none; 
             min-height: 100vh; flex-direction: column; align-items: center;
@@ -66,7 +65,6 @@
             z-index: 10;
         }
         
-        /* รูปโปรไฟล์วงกลม โหดๆ */
         .profile-img {
             width: 140px; height: 140px; border-radius: 50%;
             border: 4px solid #2a2a2a; object-fit: cover; margin-bottom: 20px;
@@ -75,7 +73,6 @@
         }
         .profile-img:hover { border-color: #ff0000; } 
 
-        /* ชื่อโชว์หล่อๆ */
         .profile-name {
             font-size: 24px; font-weight: bold; letter-spacing: 2px;
             text-transform: uppercase; margin-bottom: 25px;
@@ -83,22 +80,56 @@
             text-align: center;
         }
 
-        /* 🛡️ สไตล์กล่อง Bio: Helmet Visor (แพง คลีน) 🛡️ */
-        .bio-container {
-            max-width: 600px; text-align: center; margin-bottom: 45px;
-            min-height: 130px; color: #ccc; font-size: 15px; line-height: 1.8;
-            background: rgba(0,0,0,0.75); 
-            padding: 20px; border-radius: 8px;
+        /* 🏎️ เอฟเฟกต์ F1 Drive-By Reveal 🏎️ */
+        .bio-wrapper {
+            position: relative;
+            width: 100%; max-width: 600px;
+            margin-bottom: 45px;
+            overflow: hidden; /* ซ่อนรถตอนมันยังไม่วิ่งเข้ามา และตอนวิ่งออกไป */
+            border-radius: 8px;
             border: 1px solid rgba(255, 0, 0, 0.2); 
             box-shadow: 0 0 20px rgba(255, 0, 0, 0.3), inset 0 0 10px rgba(0,0,0,0.8); 
+            background: rgba(0,0,0,0.75); 
         }
-        .cursor { display: inline-block; width: 10px; height: 18px; background: #ff0000; animation: blinkCursor 0.8s infinite; vertical-align: middle; margin-left: 3px; }
-        @keyframes blinkCursor { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-        /* Container สำหรับปุ่มลิงก์ */
+        .bio-container {
+            padding: 20px; 
+            color: #ccc; font-size: 15px; line-height: 1.8; text-align: center;
+            /* ซ่อนข้อความทั้งหมดจากด้านขวาด้วย clip-path */
+            clip-path: inset(0 100% 0 0); 
+        }
+
+        .f1-car {
+            position: absolute;
+            top: 50%;
+            left: -100px; /* เริ่มต้นซ่อนอยู่นอกจอฝั่งซ้าย */
+            transform: translateY(-50%);
+            font-size: 35px;
+            z-index: 10;
+            filter: drop-shadow(5px 0 2px rgba(255,0,0,0.5)); /* เงาแดงวิ่งตาม */
+        }
+
+        /* คลาสที่ใช้สั่งให้ทำงานตอนเปลี่ยนหน้า */
+        .run-animation .f1-car {
+            /* รถวิ่งจากซ้ายไปขวา ใช้เวลา 1.5 วิ */
+            animation: driveCar 1.5s ease-in-out forwards;
+        }
+        .run-animation .bio-container {
+            /* ข้อความเปิดตามหลังรถ ใช้เวลา 1.5 วิ เท่ากัน */
+            animation: revealText 1.5s ease-in-out forwards;
+        }
+
+        @keyframes driveCar {
+            0% { left: -50px; }
+            100% { left: 100%; } /* ทะลุกล่องไปเลย */
+        }
+        @keyframes revealText {
+            0% { clip-path: inset(0 100% 0 0); }
+            100% { clip-path: inset(0 0 0 0); } /* เปิดข้อความจนสุด */
+        }
+
+        /* ปุ่มลิงก์ */
         .links-container { display: flex; flex-direction: column; gap: 18px; width: 100%; max-width: 480px; }
-        
-        /* สไตล์ปุ่มลิงก์ */
         .link-btn {
             display: flex; align-items: center; padding: 18px 25px;
             background: #111; color: #eee; text-decoration: none; font-size: 18px; font-weight: bold; letter-spacing: 1px;
@@ -107,7 +138,6 @@
         }
         .link-btn i, .link-btn span { transform: skewX(6deg); }
         .link-btn i { margin-right: 18px; font-size: 26px; width: 35px; text-align: center; color: #fff; }
-        
         .link-btn:hover {
             border-color: #ff0000; background: #1a1a1a; color: #fff;
             box-shadow: 0 0 20px rgba(255, 0, 0, 0.6), inset 0 0 10px rgba(255, 0, 0, 0.2);
@@ -133,11 +163,17 @@
 
     <div id="main">
         <img src="https://i.pravatar.cc/300?img=11" alt="Profile" class="profile-img">
-        
         <div class="profile-name">Pongsakorn Phanthumit</div>
         
-        <div class="bio-container">
-            <span id="typewriter"></span><span class="cursor"></span>
+        <div class="bio-wrapper" id="bio-wrapper">
+            <div class="f1-car">🏎️💨</div>
+            <div class="bio-container">
+                <span class="quote-style">"I love motorsports and hobbies where if you fuck up you die."</span><br><br>
+                <span class="fav-title">Favorite Teams:</span><br>
+                MotoGP: Aprilia & Ducati<br>
+                F1: Scuderia Ferrari<br>
+                WEC: Ferrari | WRC: Toyota
+            </div>
         </div>
 
         <div class="links-container">
@@ -169,31 +205,7 @@
         const intro = document.getElementById('intro');
         const main = document.getElementById('main');
         const flash = document.getElementById('flash');
-        const typewriterElement = document.getElementById('typewriter');
-        
-        const textToType = `<span class="quote-style">"I love motorsports and hobbies where if you fuck up you die."</span><br><br><span class="fav-title">Favorite Teams:</span><br>MotoGP: Aprilia & Ducati<br>F1: Scuderia Ferrari<br>WEC: Ferrari | WRC: Toyota`;
-        
-        let i = 0;
-        let isTag = false;
-        let text = "";
-
-        function typeWriter() {
-            if (i < textToType.length) {
-                text = textToType.slice(0, i + 1);
-                typewriterElement.innerHTML = text;
-                
-                let char = textToType.charAt(i);
-                if (char === '<') isTag = true;
-                if (char === '>') isTag = false;
-                
-                i++;
-                if (isTag) {
-                    typeWriter();
-                } else {
-                    setTimeout(typeWriter, 30);
-                }
-            }
-        }
+        const bioWrapper = document.getElementById('bio-wrapper');
 
         intro.addEventListener('click', () => {
             flash.style.display = 'block';
@@ -207,14 +219,14 @@
                 flash.style.display = 'none'; 
                 
                 document.body.style.overflow = 'auto';
-                // ใส่คลาสลายคาร์บอนสมจริง
                 document.body.classList.add('bg-carbon');
                 
                 main.style.display = 'flex'; 
                 
                 setTimeout(() => {
                     main.style.opacity = '1'; 
-                    typeWriter(); 
+                    // พอหน้าเว็บสว่างปุ๊บ สั่งให้รถ F1 ออกตัวทันที!
+                    bioWrapper.classList.add('run-animation');
                 }, 100);
             }, 500); 
         });
