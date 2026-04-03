@@ -1,177 +1,242 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pongsakorn | Personal Website</title>
-<style>
-/* --- ตั้งค่าพื้นฐาน --- */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pongsakorn | Motorsports Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- พื้นฐาน & พื้นหลังมีลูกเล่น --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-body {
-  background-color: #0d0d0d;
-  color: #fff;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 20px;
-  background-image:
-    radial-gradient(circle at top, #2a0000 0%, #0d0d0d 60%), /* แสงเรืองแดงด้านบน */
-    linear-gradient(135deg, rgba(255, 0, 0, 0.05) 0%, rgba(255, 0, 0, 0) 50%), /* ลูกเล่นเส้นสีแดง */
-    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.02) 0, rgba(255, 255, 255, 0.02) 1px, transparent 1px, transparent 5px); /* ลายคาร์บอนไฟเบอร์จางๆ */
-}
+        body {
+            background-color: #050505;
+            color: #fff;
+            font-family: 'Inter', -apple-system, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+            /* ลูกเล่นพื้นหลัง: แสงสีแดงเฟดและลายตารางจางๆ */
+            background-image: 
+                radial-gradient(circle at 50% -10%, #440000 0%, transparent 50%),
+                radial-gradient(circle at 0% 100%, #1a0000 0%, transparent 30%),
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 30px 30px, 30px 30px;
+        }
 
-/* --- จัดการกล่องบน --- */
-.card {
-  background: rgba(15, 15, 15, 0.95);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 40, 0, 0.2); /* ขอบเรืองแสงสีแดง */
-  border-radius: 16px;
-  padding: 30px;
-  width: 100%;
-  max-width: 420px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+        .container {
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            z-index: 10;
+        }
 
-.profile-pic {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid #ff2800; /* ขอบวงกลมเรืองแสงสีแดง */
-  margin-bottom: 12px;
-  box-shadow: 0 0 15px rgba(255, 40, 0, 0.4);
-}
+        /* --- กล่องหลัก (Profile) --- */
+        .main-card {
+            background: rgba(15, 15, 15, 0.8);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 40, 0, 0.3);
+            border-radius: 24px;
+            padding: 35px 25px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 0 15px rgba(255, 40, 0, 0.05);
+            position: relative;
+        }
 
-.name {
-  font-size: 22px;
-  font-weight: 800;
-  letter-spacing: 0.5px;
-  margin-bottom: 20px;
-}
+        .profile-img {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            border: 3px solid #ff2800;
+            margin-bottom: 15px;
+            box-shadow: 0 0 20px rgba(255, 40, 0, 0.4);
+            object-fit: cover;
+        }
 
-/* ส่วน Bio */
-.bio {
-  width: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  padding: 16px;
-  font-size: 14px;
-  color: #ccc;
-  text-align: center;
-  line-height: 1.6;
-  margin-bottom: 25px;
-}
+        .name {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            background: linear-gradient(to bottom, #fff, #888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-.bio-quote {
-  font-style: italic;
-  color: #fff;
-  margin-bottom: 10px;
-  display: block;
-}
+        .bio-inner {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            padding: 15px;
+            font-size: 14px;
+            color: #bbb;
+            line-height: 1.5;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
 
-.bio-teams {
-  color: #ff2800; /* สีแดง Scuderia */
-  font-weight: bold;
-}
+        .bio-inner b { color: #ff2800; }
 
-/* ไอคอนโซเชียลมีเดีย */
-.social-icons {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-bottom: 25px;
-}
+        .social-grid {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
 
-.social-icons a {
-  width: 42px;
-  height: 42px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  color: #fff;
-  font-size: 18px;
-  text-decoration: none;
-  transition: all 0.3s ease;
-}
+        .social-grid a {
+            width: 42px;
+            height: 42px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
 
-.social-icons a:hover {
-  background: #ff2800;
-  border-color: #ff2800;
-  transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(255, 40, 0, 0.4);
-}
+        .social-grid a:hover {
+            background: #ff2800;
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 5px 15px rgba(255, 40, 0, 0.4);
+        }
 
-/* ลายน้ำกำกับ */
-.watermark {
-  font-size: 10px;
-  color: #555;
-  text-align: center;
-}
+        /* ลายน้ำยืนยันความเก๋า */
+        .watermark {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.2);
+            font-weight: 600;
+        }
 
-/* --- จัดการกล่องล่าง (เพลง) --- */
-.spotify-embed {
-  margin-top: 20px;
-  width: 100%;
-  max-width: 420px;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-}
+        /* --- กล่องเพลง (Spotify Style) --- */
+        .spotify-card {
+            background: #121212;
+            border-radius: 15px;
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+        }
 
-.spotify-embed iframe {
-  width: 100%;
-  height: 80px;
-  display: block;
-}
-</style>
+        .song-cover {
+            width: 55px;
+            height: 55px;
+            border-radius: 8px;
+            object-fit: cover;
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        .song-details { flex: 1; min-width: 0; }
+        .song-name {
+            font-size: 14px;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .artist-name {
+            font-size: 12px;
+            color: #b3b3b3;
+            margin-top: 2px;
+        }
+
+        .player-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .play-btn {
+            font-size: 28px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .play-btn:hover { color: #1DB954; transform: scale(1.1); }
+
+        #yt-player { position: absolute; width: 0; height: 0; visibility: hidden; }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
 </head>
 <body>
 
-  <div class="card">
-    <img src="https://themostpoordev.github.io/images/pongsakorn.jpg" alt="Profile Picture" class="profile-pic">
-    <div class="name">Pongsakorn</div>
+    <div class="container">
+        <div class="main-card">
+            <img src="https://i.pravatar.cc/300?img=11" alt="Pongsakorn" class="profile-img">
+            <h1 class="name">Pongsakorn</h1>
+            
+            <div class="bio-inner">
+                <i>"I love motorsports and hobbies where if you fuck up you die."</i><br><br>
+                <b>Favorite Teams:</b><br>
+                MotoGP: Aprilia & Ducati | F1: Scuderia Ferrari<br>
+                WEC: Ferrari | WRC: Toyota
+            </div>
 
-    <div class="bio">
-      <span class="bio-quote">"I love motorsports and hobbies where if you fuck up you die."</span>
-      <span class="bio-teams">Favorite Teams:</span><br>
-      MotoGP: Aprilia & Ducati<br>
-      F1: Scuderia Ferrari<br>
-      WEC: Ferrari | WRC: Toyota
+            <div class="social-grid">
+                <a href="https://github.com/themostpoordev" target="_blank"><i class="fa-brands fa-github"></i></a>
+                <a href="https://www.tiktok.com/@facex26" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
+                <a href="https://www.youtube.com/@pongsakornPTM" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+                <a href="https://www.instagram.com/wouldyouguarantee" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://www.roblox.com/users/profile?username=CGJKGGK" target="_blank"><i class="fa-solid fa-gamepad"></i></a>
+                <a href="https://www.xbox.com/play/user/RuSure9496" target="_blank"><i class="fa-brands fa-xbox"></i></a>
+            </div>
+
+            <div class="watermark">
+                Handcrafted by Pongsakorn • © 2024
+            </div>
+        </div>
+
+        <div class="spotify-card">
+            <img src="https://img.youtube.com/vi/7bbYFpvhCcI/hqdefault.jpg" class="song-cover" id="cover">
+            <div class="song-details">
+                <div class="song-name">ไม่เคยถูกรัก (Never Been Loved)</div>
+                <div class="artist-name">URBOYTJ FT. Three Man Down</div>
+            </div>
+            <div class="player-controls">
+                <i class="fa-solid fa-circle-play play-btn" id="ctrlIcon"></i>
+            </div>
+        </div>
     </div>
 
-    <div class="social-icons">
-      <a href="https://github.com/yourusername" target="_blank"><i></i></a>
-      <a href="https://www.roblox.com/users/profile?username=yourusername" target="_blank"><i></i></a>
-      <a href="https://open.spotify.com/user/yourusername" target="_blank"><i></i></a>
-      <a href="https://www.tiktok.com/@yourusername" target="_blank"><i></i></a>
-      <a href="https://www.xbox.com/play/user/yourusername" target="_blank"><i></i></a>
-      <a href="https://www.youtube.com/@yourusername" target="_blank"><i></i></a>
-      <a href="https://www.instagram.com/yourusername" target="_blank"><i></i></a>
-    </div>
+    <iframe id="yt-player" src="https://www.youtube.com/embed/7bbYFpvhCcI?enablejsapi=1&start=110" allow="autoplay"></iframe>
 
-    <div class="watermark">
-      MADE BY PONGSAKORN • @YOUR_INSTAGRAM • (C) 2026
-    </div>
-  </div>
+    <script>
+        const player = document.getElementById('yt-player').contentWindow;
+        const ctrlIcon = document.getElementById('ctrlIcon');
+        let playing = false;
 
-  <div class="spotify-embed">
-    <iframe src="https://open.spotify.com/embed/track/1801488335?start=110&enablejsapi=1" allow="autoplay"></iframe>
-  </div>
-
+        ctrlIcon.onclick = function() {
+            if(!playing) {
+                player.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                ctrlIcon.classList.remove('fa-circle-play');
+                ctrlIcon.classList.add('fa-circle-pause');
+                playing = true;
+            } else {
+                player.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+                ctrlIcon.classList.remove('fa-circle-pause');
+                ctrlIcon.classList.add('fa-circle-play');
+                playing = false;
+            }
+        }
+    </script>
 </body>
 </html>
