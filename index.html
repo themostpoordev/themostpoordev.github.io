@@ -79,77 +79,70 @@
             text-shadow: 0 0 10px rgba(255, 0, 0, 0.4);
             text-align: center;
         }
-
-        /* 🏎️ เอฟเฟกต์ F1 Skid Mark Reveal (เดินหน้า!!) 🏎️ */
+        /* 🏎️ เอฟเฟกต์ F1 Skid Mark Reveal (เดินหน้าจากขวาไปซ้าย!!) 🏎️ */
         .bio-wrapper {
             position: relative;
             width: 100%; max-width: 600px;
             margin-bottom: 45px;
-            overflow: hidden; /* ซ่อนรถตอนมันยังไม่วิ่งเข้ามา และตอนวิ่งออกไป */
-            /* ลบขอบและพื้นหลังเดิมออกหมด */
+            overflow: hidden; 
             background: transparent;
             box-shadow: none;
             border: none;
         }
 
-        /* รอยยาง (Skid Mark) บนพื้นหลังคาร์บอน */
         .skid-mark {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 0%; /* เริ่มต้นซ่อนอยู่จากด้านขวา */
+            width: 0%; 
             height: 100%;
             background: radial-gradient(circle at center, rgba(0,0,0,0.9) 0%, rgba(10,10,10,0.7) 100%);
             z-index: 1;
-            /* ปาดเปิดรอยยางจากด้านขวา */
             clip-path: inset(0 0 0 100%); 
         }
 
         .bio-container {
             padding: 20px; 
             color: #eee; font-size: 15px; line-height: 1.8; text-align: center;
-            z-index: 2; /* ทับรอยยาง */
-            /* ซ่อนข้อความทั้งหมดจากด้านขวาด้วย clip-path */
+            z-index: 2; 
             clip-path: inset(0 0 0 100%); 
         }
 
-        .f1-car {
+        /* 🖼️ สไตล์รูปภาพ F1 (หันหน้าไปทางซ้าย) */
+        #f1-car-img {
             position: absolute;
             top: 50%;
-            right: -200px; /* เริ่มต้นซ่อนอยู่นอกจอฝั่งขวา!! */
-            transform: translateY(-50%) rotateY(180deg); /* สลับด้านรูปรถให้เดินหน้า!! */
-            font-size: 120px; /* ขยายรถให้ใหญ่เต็มกรอบ!! */
+            right: -300px; /* เริ่มต้นซ่อนอยู่นอกจอฝั่งขวา!! */
+            transform: translateY(-50%); /* ลบ rotateY(180deg) ทิ้ง!! */
+            width: 250px; /* ปรับขนาดรูปรถให้ใหญ่ตามต้องการ!! */
             z-index: 10;
             filter: drop-shadow(-5px 0 2px rgba(255,0,0,0.6)); /* เงาแดงวิ่งตามหลังรถ!! */
         }
 
-        /* คลาสที่ใช้สั่งให้ทำงานตอนเปลี่ยนหน้า */
-        .run-animation .f1-car {
-            /* รถวิ่งจากขวาไปซ้าย ใช้เวลา 1.5 วิ */
-            animation: driveCarRev 1.5s ease-in-out forwards;
+        .run-animation #f1-car-img {
+            animation: driveCarRevImg 1.5s ease-in-out forwards;
         }
         .run-animation .bio-container {
-            /* ข้อความเปิดตามหลังรถ ใช้เวลา 1.5 วิ เท่ากัน */
             animation: revealTextRev 1.5s ease-in-out forwards;
         }
         .run-animation .skid-mark {
-            /* รอยยางเปิดตามหลังรถ ใช้เวลา 1.5 วิ เท่ากัน */
             animation: revealMark 1.5s ease-in-out forwards;
         }
 
-        @keyframes driveCarRev {
-            0% { right: -200px; }
-            100% { right: 100%; } /* ทะลุกล่องไปเลย */
+        @keyframes driveCarRevImg {
+            0% { right: -300px; }
+            100% { right: 100%; } 
         }
         @keyframes revealTextRev {
             0% { clip-path: inset(0 0 0 100%); }
-            100% { clip-path: inset(0 0 0 0); } /* เปิดข้อความจนสุด */
+            100% { clip-path: inset(0 0 0 0); } 
         }
         @keyframes revealMark {
             0% { clip-path: inset(0 0 0 100%); width: 0%;}
-            100% { clip-path: inset(0 0 0 0); width: 100%;} /* เปิดรอยยางจนสุด */
+            100% { clip-path: inset(0 0 0 0); width: 100%;} 
         }
+
 
         /* ปุ่มลิงก์ */
         .links-container { display: flex; flex-direction: column; gap: 18px; width: 100%; max-width: 480px; }
@@ -188,8 +181,8 @@
         <img src="https://i.pravatar.cc/300?img=11" alt="Profile" class="profile-img">
         <div class="profile-name">Pongsakorn Phanthumit</div>
         
-        <div class="bio-wrapper" id="bio-wrapper">
-            <div class="skid-mark"></div> <div class="f1-car">🏎️💨</div>
+                <div class="bio-wrapper" id="bio-wrapper">
+            <div class="skid-mark"></div> <img src="https://i.imgur.com/rM7pW6f.png" alt="F1 Car" id="f1-car-img">
             <div class="bio-container">
                 <span class="quote-style">"I love motorsports and hobbies where if you fuck up you die."</span><br><br>
                 <span class="fav-title">Favorite Teams:</span><br>
@@ -198,6 +191,7 @@
                 WEC: Ferrari | WRC: Toyota
             </div>
         </div>
+
 
         <div class="links-container">
             <a href="https://github.com/themostpoordev" target="_blank" class="link-btn">
