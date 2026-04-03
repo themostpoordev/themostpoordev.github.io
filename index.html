@@ -3,188 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pongsakorn | Motorsports Hub</title>
+    <title>Pongsakorn | Personal Hub</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* --- พื้นฐาน & พื้นหลังมีลูกเล่น --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #ff2800; /* Ferrari Red */
+            --glass: rgba(15, 15, 15, 0.7);
+            --border: rgba(255, 255, 255, 0.1);
+        }
 
         body {
-            background-color: #050505;
+            background: #020202;
             color: #fff;
             font-family: 'Inter', -apple-system, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 20px;
-            overflow-x: hidden;
-            /* ลูกเล่นพื้นหลัง: แสงสีแดงเฟดและลายตารางจางๆ */
-            background-image: 
-                radial-gradient(circle at 50% -10%, #440000 0%, transparent 50%),
-                radial-gradient(circle at 0% 100%, #1a0000 0%, transparent 30%),
-                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-            background-size: 100% 100%, 100% 100%, 30px 30px, 30px 30px;
+            overflow: hidden;
+            margin: 0;
+            /* พื้นหลังลายตารางจางๆ แบบเว็บ Dev */
+            background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        /* แสงออร่าสีแดงวิ่งตามเมาส์ */
+        #glow {
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 40, 0, 0.12) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 1;
         }
 
         .container {
+            position: relative;
+            z-index: 2;
             width: 100%;
-            max-width: 400px;
+            max-width: 380px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            z-index: 10;
+            gap: 15px;
         }
 
-        /* --- กล่องหลัก (Profile) --- */
-        .main-card {
-            background: rgba(15, 15, 15, 0.8);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 40, 0, 0.3);
-            border-radius: 24px;
+        /* --- กล่องโปรไฟล์ Glassmorphism --- */
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--border);
+            border-radius: 30px;
             padding: 35px 25px;
             text-align: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 0 15px rgba(255, 40, 0, 0.05);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .profile-wrap {
             position: relative;
+            display: inline-block;
+            margin-bottom: 20px;
         }
 
         .profile-img {
-            width: 110px;
-            height: 110px;
+            width: 115px;
+            height: 115px;
             border-radius: 50%;
-            border: 3px solid #ff2800;
-            margin-bottom: 15px;
-            box-shadow: 0 0 20px rgba(255, 40, 0, 0.4);
             object-fit: cover;
+            border: 2px solid var(--primary);
+            padding: 4px;
+            background: #000;
         }
+
+        /* วงแหวนหมุนรอบรูป */
+        .profile-wrap::after {
+            content: '';
+            position: absolute;
+            top: -6px; left: -6px; right: -6px; bottom: -6px;
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            border-top-color: transparent;
+            border-bottom-color: transparent;
+            animation: spin 4s linear infinite;
+        }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
 
         .name {
             font-size: 26px;
-            font-weight: 800;
-            letter-spacing: 1px;
-            margin-bottom: 15px;
-            background: linear-gradient(to bottom, #fff, #888);
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            margin-bottom: 5px;
+            background: linear-gradient(to bottom, #fff, #777);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .bio-inner {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 15px;
-            padding: 15px;
-            font-size: 14px;
-            color: #bbb;
-            line-height: 1.5;
-            margin-bottom: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+        .bio-text {
+            font-size: 13.5px;
+            color: #aaa;
+            line-height: 1.6;
+            margin: 15px 0 25px;
         }
 
-        .bio-inner b { color: #ff2800; }
+        .bio-text b { color: var(--primary); }
 
         .social-grid {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-bottom: 25px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
         }
 
         .social-grid a {
-            width: 42px;
-            height: 42px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            height: 45px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: #fff;
             text-decoration: none;
             font-size: 18px;
-            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .social-grid a:hover {
-            background: #ff2800;
-            transform: scale(1.1) translateY(-5px);
-            box-shadow: 0 5px 15px rgba(255, 40, 0, 0.4);
+            background: var(--primary);
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(255, 40, 0, 0.3);
         }
 
-        /* ลายน้ำยืนยันความเก๋า */
         .watermark {
-            font-size: 10px;
-            text-transform: uppercase;
+            margin-top: 25px;
+            font-size: 9px;
             letter-spacing: 2px;
-            color: rgba(255, 255, 255, 0.2);
+            color: rgba(255,255,255,0.2);
             font-weight: 600;
         }
 
-        /* --- กล่องเพลง (Spotify Style) --- */
-        .spotify-card {
-            background: #121212;
-            border-radius: 15px;
+        /* --- กล่องเพลง Spotify Style --- */
+        .spotify-widget {
+            background: rgba(18, 18, 18, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 18px;
             padding: 12px 18px;
             display: flex;
             align-items: center;
             gap: 15px;
-            border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            border: 1px solid var(--border);
         }
 
         .song-cover {
-            width: 55px;
-            height: 55px;
-            border-radius: 8px;
-            object-fit: cover;
-            animation: pulse 2s infinite ease-in-out;
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            background: url('https://img.youtube.com/vi/7bbYFpvhCcI/hqdefault.jpg') center/cover;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
         }
 
-        .song-details { flex: 1; min-width: 0; }
-        .song-name {
-            font-size: 14px;
-            font-weight: 700;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .artist-name {
-            font-size: 12px;
-            color: #b3b3b3;
-            margin-top: 2px;
-        }
-
-        .player-controls {
+        .play-btn-circle {
+            width: 38px;
+            height: 38px;
+            background: #fff;
+            color: #000;
+            border-radius: 50%;
             display: flex;
             align-items: center;
-            gap: 12px;
-        }
-
-        .play-btn {
-            font-size: 28px;
+            justify-content: center;
             cursor: pointer;
+            margin-left: auto;
+            font-size: 16px;
             transition: 0.2s;
         }
 
-        .play-btn:hover { color: #1DB954; transform: scale(1.1); }
+        .play-btn-circle:hover { transform: scale(1.1); background: var(--primary); color: #fff; }
 
         #yt-player { position: absolute; width: 0; height: 0; visibility: hidden; }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
     </style>
 </head>
 <body>
 
+    <div id="glow"></div>
+
     <div class="container">
-        <div class="main-card">
-            <img src="https://cdn.phototourl.com/free/2026-04-03-b7b85193-d0ad-4625-ac94-2b4013d9699d.webp" alt="Pongsakorn" class="profile-img">
-            <h1 class="name">Pongsakorn</h1>
+        <div class="glass-card">
+            <div class="profile-wrap">
+                <img src="https://cdn.phototourl.com/free/2026-04-03-b7b85193-d0ad-4625-ac94-2b4013d9699d.webp" class="profile-img">
+            </div>
             
-            <div class="bio-inner">
+            <h1 class="name">PONGSAKORN</h1>
+            
+            <div class="bio-text">
                 <i>"I love motorsports and hobbies where if you fuck up you die."</i><br><br>
                 <b>Favorite Teams:</b><br>
                 MotoGP: Aprilia & Ducati | F1: Scuderia Ferrari<br>
@@ -194,24 +207,23 @@
             <div class="social-grid">
                 <a href="https://github.com/themostpoordev" target="_blank"><i class="fa-brands fa-github"></i></a>
                 <a href="https://www.tiktok.com/@facex26" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
-                <a href="https://www.youtube.com/@pongsakornPTM" target="_blank"><i class="fa-brands fa-youtube"></i></a>
                 <a href="https://www.instagram.com/wouldyouguarantee" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://www.youtube.com/@pongsakornPTM" target="_blank"><i class="fa-brands fa-youtube"></i></a>
                 <a href="https://www.xbox.com/play/user/RuSure9496" target="_blank"><i class="fa-brands fa-xbox"></i></a>
+                <a href="#" target="_blank"><i class="fa-brands fa-spotify"></i></a>
             </div>
 
-            <div class="watermark">
-                Handcrafted by Pongsakorn • © 2024
-            </div>
+            <div class="watermark">HANDCRAFTED BY PONGSAKORN • © 2026</div>
         </div>
 
-        <div class="spotify-card">
-            <img src="https://img.youtube.com/vi/7bbYFpvhCcI/hqdefault.jpg" class="song-cover" id="cover">
-            <div class="song-details">
-                <div class="song-name">ไม่เคยถูกรัก (Never Been Loved)</div>
-                <div class="artist-name">URBOYTJ FT. Three Man Down</div>
+        <div class="spotify-widget">
+            <div class="song-cover"></div>
+            <div style="flex: 1; min-width: 0;">
+                <div style="font-size: 13.5px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">ไม่เคยถูกรัก (Never Been Loved)</div>
+                <div style="font-size: 11px; color: #777;">URBOYTJ FT. Three Man Down</div>
             </div>
-            <div class="player-controls">
-                <i class="fa-solid fa-circle-play play-btn" id="ctrlIcon"></i>
+            <div class="play-btn-circle" id="playBtn">
+                <i class="fa-solid fa-play"></i>
             </div>
         </div>
     </div>
@@ -219,23 +231,29 @@
     <iframe id="yt-player" src="https://www.youtube.com/embed/7bbYFpvhCcI?enablejsapi=1&start=110" allow="autoplay"></iframe>
 
     <script>
-        const player = document.getElementById('yt-player').contentWindow;
-        const ctrlIcon = document.getElementById('ctrlIcon');
-        let playing = false;
+        // แสงวิ่งตามเมาส์
+        const glow = document.getElementById('glow');
+        document.addEventListener('mousemove', (e) => {
+            glow.style.left = e.clientX + 'px';
+            glow.style.top = e.clientY + 'px';
+        });
 
-        ctrlIcon.onclick = function() {
-            if(!playing) {
+        // ควบคุมเพลง
+        const player = document.getElementById('yt-player').contentWindow;
+        const playBtn = document.getElementById('playBtn');
+        let isPlaying = false;
+
+        playBtn.onclick = () => {
+            if(!isPlaying) {
                 player.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-                ctrlIcon.classList.remove('fa-circle-play');
-                ctrlIcon.classList.add('fa-circle-pause');
-                playing = true;
+                playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+                isPlaying = true;
             } else {
                 player.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-                ctrlIcon.classList.remove('fa-circle-pause');
-                ctrlIcon.classList.add('fa-circle-play');
-                playing = false;
+                playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+                isPlaying = false;
             }
-        }
+        };
     </script>
 </body>
 </html>
