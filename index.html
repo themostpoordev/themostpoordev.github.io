@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>themostpoordev | Motorsports Hub</title>
+    <title>Pongsakorn | Motorsports Hub</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* --- CSS Reset & Global Settings --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
-            background-color: #0a0a0a; /* สีดำเข้มตอนหน้าแรก */
+            background-color: #0a0a0a;
             color: #fff;
-            font-family: 'Courier New', Courier, monospace; /* ฟอนต์สไตล์ดิบๆ/แฮกเกอร์ */
+            font-family: 'Courier New', Courier, monospace;
             overflow: hidden; /* ล็อคสกอร์บาร์ตอนหน้าแรก */
             transition: background 0.5s ease;
         }
 
-        /* --- ลายคาร์บอนไฟเบอร์สำหรับหน้าหลัก (ใช้ CSS สร้าง) --- */
+        /* --- ลายคาร์บอนไฟเบอร์แบบใหม่ (รอดชัวร์ ไม่บั๊ก) --- */
         .bg-carbon {
             background-color: #050505;
             background-image: radial-gradient(#222 1.5px, transparent 1.5px);
@@ -39,19 +39,14 @@
             transition: opacity 0.5s ease;
         }
         
-        /* จุดไฟ Shift Light 3 ดวง */
         .shift-lights { display: flex; gap: 15px; margin-bottom: 25px; }
         .light { width: 20px; height: 20px; border-radius: 50%; background: #222; transition: all 0.2s ease; box-shadow: 0 0 5px rgba(0,0,0,0.5); }
         
-        /* 🔥 เอฟเฟกต์ตอนเอาเมาส์ชี้หน้าแรก (Hover) 🔥 */
-        /* ดวงที่ 1: สีเขียว (Ready) */
+        /* Hover Effects หน้า Enter */
         #intro:hover .l-1 { background: #00ff00; box-shadow: 0 0 20px #00ff00; }
-        /* ดวงที่ 2: สีส้ม (Set) - หน่วงเวลานิดนึง */
         #intro:hover .l-2 { background: #ffaa00; box-shadow: 0 0 20px #ffaa00; transition-delay: 0.15s; }
-        /* ดวงที่ 3: สีแดงกะพริบ (GO!) - หน่วงเวลานานสุดและใส่ Animation */
         #intro:hover .l-3 { background: #ff0000; box-shadow: 0 0 20px #ff0000; animation: blink 0.15s infinite; animation-delay: 0.3s; }
         
-        /* Animation สำหรับไฟแดงกะพริบ */
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
         
         .enter-text { font-size: 20px; font-weight: bold; letter-spacing: 4px; color: #444; transition: color 0.3s; text-transform: uppercase; }
@@ -59,55 +54,60 @@
 
         /* --- หน้าหลัก (Main Page) --- */
         #main {
-            display: none; /* ซ่อนไว้ก่อน */
+            display: none; 
             min-height: 100vh; flex-direction: column; align-items: center;
-            padding: 80px 20px; opacity: 0; transition: opacity 1s ease-in;
+            padding: 60px 20px; opacity: 0; transition: opacity 1s ease-in;
         }
         
-        /* รูปโปรไฟล์วงกลม โหดๆ */
+        /* รูปโปรไฟล์วงกลม */
         .profile-img {
             width: 140px; height: 140px; border-radius: 50%;
-            border: 4px solid #2a2a2a; object-fit: cover; margin-bottom: 25px;
+            border: 4px solid #2a2a2a; object-fit: cover; margin-bottom: 20px;
             box-shadow: 0 0 25px rgba(0,0,0,0.8);
             transition: border-color 0.3s;
         }
-        .profile-img:hover { border-color: #ff0000; } /* ชี้แล้วขอบแดง */
+        .profile-img:hover { border-color: #ff0000; }
 
-        /* กล่อง Bio พิมพ์เอง (Typewriter) */
+        /* ชื่อโชว์หล่อๆ */
+        .profile-name {
+            font-size: 24px; font-weight: bold; letter-spacing: 2px;
+            text-transform: uppercase; margin-bottom: 25px;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.4);
+            text-align: center;
+        }
+
+        /* กล่อง Bio พิมพ์เอง */
         .bio-container {
-            max-width: 550px; text-align: center; margin-bottom: 50px;
-            min-height: 100px; color: #ccc; font-size: 16px; line-height: 1.7;
-            background: rgba(0,0,0,0.3); padding: 15px; border-radius: 4px;
+            max-width: 600px; text-align: center; margin-bottom: 45px;
+            min-height: 130px; color: #ccc; font-size: 15px; line-height: 1.8;
+            background: rgba(0,0,0,0.4); padding: 20px; border-radius: 8px;
+            border-left: 3px solid #ff0000; /* เส้นตกแต่งขอบซ้าย */
         }
         .cursor { display: inline-block; width: 10px; height: 18px; background: #ff0000; animation: blinkCursor 0.8s infinite; vertical-align: middle; margin-left: 3px; }
         @keyframes blinkCursor { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-        /* Container สำหรับปุ่มลิงก์ */
-        .links-container { display: flex; flex-direction: column; gap: 20px; width: 100%; max-width: 480px; }
-        
-        /* สไตล์ปุ่มลิงก์: ดำด้าน, ทรงเฉียง (Skew) */
+        /* ปุ่มลิงก์ */
+        .links-container { display: flex; flex-direction: column; gap: 18px; width: 100%; max-width: 480px; }
         .link-btn {
             display: flex; align-items: center; padding: 18px 25px;
-            background: #151515; /* สีดำด้าน */
-            color: #eee; text-decoration: none; font-size: 18px; font-weight: bold; letter-spacing: 1px;
+            background: #151515; color: #eee; text-decoration: none; font-size: 18px; font-weight: bold; letter-spacing: 1px;
             border: 2px solid #2a2a2a; border-radius: 4px; 
-            transform: skewX(-6deg); /* ทำให้ปุ่มเฉียงดูซิ่ง */
+            transform: skewX(-6deg); 
             transition: all 0.3s ease; position: relative; overflow: hidden;
         }
-        
-        /* จัดการไอคอนและตัวหนังสือภายในปุ่มไม่ให้เฉียงตาม */
         .link-btn i, .link-btn span { transform: skewX(6deg); }
         .link-btn i { margin-right: 18px; font-size: 26px; width: 35px; text-align: center; color: #fff; }
         
-        /* 🔥 เอฟเฟกต์ตอนชี้ปุ่มลิงก์ (Hover) 🔥 */
         .link-btn:hover {
-            border-color: #ff0000; /* ขอบแดง */
-            background: #1a1a1a;
-            color: #fff;
-            /* เรืองแสงสีแดงดุๆ */
+            border-color: #ff0000; background: #1a1a1a; color: #fff;
             box-shadow: 0 0 20px rgba(255, 0, 0, 0.7), inset 0 0 10px rgba(255, 0, 0, 0.3);
-            transform: skewX(-6deg) scale(1.03); /* ขยายใหญ่ขึ้นนิดนึง */
+            transform: skewX(-6deg) scale(1.03); 
         }
+        
+        /* สไตล์พิเศษสำหรับคำพูดโควทให้มันเป็นสีจางๆ เอียงๆ */
+        .quote-style { font-style: italic; color: #999; }
+        /* สไตล์ให้คำว่า Favorite Teams เป็นสีแดง */
+        .fav-title { color: #ff0000; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -124,7 +124,9 @@
     </div>
 
     <div id="main">
-        <img src="https://i.pravatar.cc/300?img=11" alt="themostpoordev" class="profile-img">
+        <img src="https://i.pravatar.cc/300?img=11" alt="Profile" class="profile-img">
+        
+        <div class="profile-name">Pongsakorn Phanthumit</div>
         
         <div class="bio-container">
             <span id="typewriter"></span><span class="cursor"></span>
@@ -134,27 +136,21 @@
             <a href="https://github.com/themostpoordev" target="_blank" class="link-btn">
                 <i class="fa-brands fa-github"></i><span>themostpoordev</span>
             </a>
-            
             <a href="https://www.roblox.com/users/profile?username=CGJKGGK" target="_blank" class="link-btn">
                 <i class="fa-solid fa-gamepad"></i><span>CGJKGGK (Roblox)</span>
             </a>
-            
             <a href="https://open.spotify.com/user/pongsakorn" target="_blank" class="link-btn">
                 <i class="fa-brands fa-spotify" style="color: #1DB954;"></i><span>pongsakorn</span>
             </a>
-            
             <a href="https://www.tiktok.com/@facex26" target="_blank" class="link-btn">
                 <i class="fa-brands fa-tiktok"></i><span>facex26</span>
             </a>
-            
             <a href="https://www.xbox.com/play/user/RuSure9496" target="_blank" class="link-btn">
                 <i class="fa-brands fa-xbox" style="color: #107C10;"></i><span>RuSure9496</span>
             </a>
-            
             <a href="https://www.youtube.com/@pongsakornPTM" target="_blank" class="link-btn">
                 <i class="fa-brands fa-youtube" style="color: #FF0000;"></i><span>pongsakorn PTM</span>
             </a>
-            
             <a href="https://www.instagram.com/wouldyouguarantee" target="_blank" class="link-btn">
                 <i class="fa-brands fa-instagram" style="color: #E1306C;"></i><span>wouldyouguarantee</span>
             </a>
@@ -162,57 +158,59 @@
     </div>
 
     <script>
-        // ดึง Element ต่างๆ มาเตรียมไว้
         const intro = document.getElementById('intro');
         const main = document.getElementById('main');
         const flash = document.getElementById('flash');
         const typewriterElement = document.getElementById('typewriter');
         
-        // ✍️ ข้อความ Bio ที่มึงรีเควส (ใส่เครื่องหมาย \n เพื่อขึ้นบรรทัดใหม่) ✍️
-        const textToType = "Motorsports enthusiast.\nMotoGP: Aprilia & Ducati.\nF1: Scuderia Ferrari.\nWEC: Ferrari | WRC: Toyota.";
-        let i = 0;
+        // ✍️ ใส่ HTML Tag ลงใน Bio ได้เลย เพื่อเน้นสีคำให้เท่ขึ้น
+        const textToType = `<span class="quote-style">"I love motorsports and hobbies where if you fuck up you die."</span><br><br><span class="fav-title">Favorite Teams:</span><br>MotoGP: Aprilia & Ducati<br>F1: Scuderia Ferrari<br>WEC: Ferrari | WRC: Toyota`;
         
-        // ฟังก์ชันพิมพ์ดีด (Typewriter)
+        // ฟังก์ชันพิมพ์ดีด (Typewriter) แบบรองรับ HTML Tag
+        let i = 0;
+        let isTag = false;
+        let text = "";
+
         function typeWriter() {
             if (i < textToType.length) {
-                // ถ้าเจอ \n ให้ใส่ tag <br> แทน
-                if(textToType.charAt(i) === '\n') {
-                   typewriterElement.innerHTML += '<br>';
-                } else {
-                   typewriterElement.innerHTML += textToType.charAt(i);
-                }
+                text = textToType.slice(0, i + 1);
+                typewriterElement.innerHTML = text;
+                
+                let char = textToType.charAt(i);
+                if (char === '<') isTag = true;
+                if (char === '>') isTag = false;
+                
                 i++;
-                // ปรับความเร็วการพิมพ์ตรงนี้ (ตัวเลขน้อย = พิมพ์เร็ว)
-                setTimeout(typeWriter, 50); 
+                // ถ้าเป็น Tag HTML ให้ข้ามไปพิมพ์ตัวต่อไปเลย จะได้ไม่ชะงัก
+                if (isTag) {
+                    typeWriter();
+                } else {
+                    setTimeout(typeWriter, 30); // ความเร็วการพิมพ์ (30ms = เร็วสะใจ)
+                }
             }
         }
 
-        // --- Event ตอนคลิกหน้าแรก (Transition) ---
         intro.addEventListener('click', () => {
-            // 1. ยิงแสง Flash สีขาววาบ
             flash.style.display = 'block';
             setTimeout(() => {
                 flash.style.opacity = '0';
                 flash.style.transition = 'opacity 0.6s ease-out';
-            }, 50); // โชว์แสงสีขาวแวบเดียว
+            }, 50);
             
-            // 2. ซ่อนหน้า Enter และโชว์หน้าหลัก
             setTimeout(() => {
-                intro.style.display = 'none'; // ซ่อนหน้าแรกถาวร
-                flash.style.display = 'none'; // ซ่อน Element แสง Flash
+                intro.style.display = 'none';
+                flash.style.display = 'none';
                 
-                // ปลดล็อคให้เลื่อนจอได้ และใส่พื้นหลัง Carbon โหดๆ
                 document.body.style.overflow = 'auto';
                 document.body.classList.add('bg-carbon');
                 
-                main.style.display = 'flex'; // โชว์หน้าหลัก (ยังมองไม่เห็นเพราะ opacity=0)
+                main.style.display = 'flex';
                 
-                // 3. เฟดหน้าหลักโผล่ขึ้นมาอย่างสมูท และเริ่มพิมพ์ Bio
                 setTimeout(() => {
-                    main.style.opacity = '1'; // ค่อยๆ เฟดหน้าหลักมา
-                    typeWriter(); // เริ่มรันเอฟเฟกต์พิมพ์ดีด
+                    main.style.opacity = '1';
+                    typeWriter(); 
                 }, 100);
-            }, 500); // ระยะเวลา Flash ก่อนเปลี่ยนหน้า (มิลลิวินาที)
+            }, 500); 
         });
     </script>
 </body>
