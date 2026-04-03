@@ -6,247 +6,234 @@
     <title>Pongsakorn | Motorsports Hub</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* --- CSS Reset & Global Settings --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+        /* --- ตั้งค่าพื้นฐาน --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
+            /* พื้นหลังดำดาร์กๆ คลีนๆ */
             background-color: #050505; 
+            background-image: radial-gradient(circle at 50% 0%, #3a0000 0%, #050505 60%);
             color: #fff;
-            font-family: 'Courier New', Courier, monospace; 
-            overflow: hidden; 
-            transition: background 0.5s ease;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            overflow: hidden; /* ไม่ให้จอขยับ */
         }
 
-        /* --- 🏁 ลายคาร์บอนไฟเบอร์สมจริง 🏁 --- */
-        .bg-carbon {
-            background:
-                linear-gradient(27deg, #151515 5px, transparent 5px) 0 5px,
-                linear-gradient(207deg, #151515 5px, transparent 5px) 10px 0px,
-                linear-gradient(27deg, #222 5px, transparent 5px) 0px 10px,
-                linear-gradient(207deg, #222 5px, transparent 5px) 10px 5px,
-                linear-gradient(90deg, #1b1b1b 10px, transparent 10px),
-                linear-gradient(#1d1d1d 25%, #1a1a1a 25%, #1a1a1a 50%, transparent 50%, transparent 75%, #242424 75%, #242424 100%);
-            background-color: #131313;
-            background-size: 20px 20px;
+        /* --- กล่องหลัก (สไตล์ Spotify Player / guns.lol) --- */
+        .player-card {
+            width: 100%;
+            max-width: 380px;
+            background: rgba(20, 20, 20, 0.6);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
         }
 
-        #flash {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #fff; z-index: 999; display: none; opacity: 1; pointer-events: none;
-        }
-
-        /* --- หน้า Enter Screen --- */
-        #intro {
-            height: 100vh; width: 100%;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            cursor: pointer; position: absolute; z-index: 100;
-            background-color: #050505;
-            transition: opacity 0.5s ease;
-        }
-        
-        .shift-lights { display: flex; gap: 15px; margin-bottom: 25px; }
-        .light { width: 20px; height: 20px; border-radius: 50%; background: #222; transition: all 0.2s ease; box-shadow: 0 0 5px rgba(0,0,0,0.5); }
-        
-        #intro:hover .l-1 { background: #ff0000; box-shadow: 0 0 20px #ff0000; }
-        #intro:hover .l-2 { background: #ff0000; box-shadow: 0 0 20px #ff0000; transition-delay: 0.15s; }
-        #intro:hover .l-3 { background: #ff0000; box-shadow: 0 0 20px #ff0000; animation: blink 0.15s infinite; animation-delay: 0.3s; }
-        
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-        
-        .enter-text { font-size: 20px; font-weight: bold; letter-spacing: 4px; color: #444; transition: color 0.3s; text-transform: uppercase; }
-        #intro:hover .enter-text { color: #fff; text-shadow: 0 0 10px #ff0000; }
-
-        /* --- หน้าหลัก --- */
-        #main {
-            display: none; 
-            min-height: 100vh; flex-direction: column; align-items: center;
-            padding: 60px 20px; opacity: 0; transition: opacity 1s ease-in;
+        /* --- รูปปกทีม (Cover Art) --- */
+        .cover-art {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
             position: relative;
-            z-index: 10;
         }
-        
-        .profile-img {
-            width: 140px; height: 140px; border-radius: 50%;
-            border: 4px solid #2a2a2a; object-fit: cover; margin-bottom: 20px;
-            box-shadow: 0 0 25px rgba(0,0,0,0.8);
-            transition: border-color 0.3s;
-        }
-        .profile-img:hover { border-color: #ff0000; } 
 
-        .profile-name {
-            font-size: 24px; font-weight: bold; letter-spacing: 2px;
-            text-transform: uppercase; margin-bottom: 25px;
-            text-shadow: 0 0 10px rgba(255, 0, 0, 0.4);
+        .cover-art img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* ใส่รูปรถ Ferrari F1 เท่ๆ */
+            display: block;
+        }
+
+        /* --- ข้อมูลชื่อ (Song Title) --- */
+        .header-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .title-group h1 {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .title-group p {
+            font-size: 14px;
+            color: #ff2800; /* สีแดง Ferrari */
+            font-weight: 600;
+        }
+
+        .heart-icon {
+            color: #ff2800;
+            font-size: 20px;
+        }
+
+        /* --- กล่อง Bio ย่อย (สไตล์ guns.lol) --- */
+        .bio-box {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 15px;
+            font-size: 13px;
+            color: #b3b3b3;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .bio-box .quote {
+            font-style: italic;
+            color: #ddd;
+            margin-bottom: 10px;
+            display: block;
             text-align: center;
         }
-        /* 🏎️ เอฟเฟกต์ F1 Skid Mark Reveal (เดินหน้าจากขวาไปซ้าย!!) 🏎️ */
-        .bio-wrapper {
+
+        .bio-box .teams {
+            font-size: 12px;
+        }
+
+        .bio-box .highlight {
+            color: #ff2800;
+            font-weight: bold;
+        }
+
+        /* --- แถบเล่นเพลงหลอกๆ (Fake Progress Bar) --- */
+        .progress-container {
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
             position: relative;
-            width: 100%; max-width: 600px;
-            margin-bottom: 45px;
-            overflow: hidden; 
-            background: transparent;
-            box-shadow: none;
-            border: none;
+            margin-bottom: 8px;
         }
 
-        .skid-mark {
+        .progress-fill {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 0%; 
+            top: 0;
+            left: 0;
             height: 100%;
-            background: radial-gradient(circle at center, rgba(0,0,0,0.9) 0%, rgba(10,10,10,0.7) 100%);
-            z-index: 1;
-            clip-path: inset(0 0 0 100%); 
+            width: 75%; /* จำลองว่าเล่นไปแล้ว 75% */
+            background: #fff;
+            border-radius: 2px;
         }
 
-        .bio-container {
-            padding: 20px; 
-            color: #eee; font-size: 15px; line-height: 1.8; text-align: center;
-            z-index: 2; 
-            clip-path: inset(0 0 0 100%); 
-        }
-
-        /* 🖼️ สไตล์รูปภาพ F1 (หันหน้าไปทางซ้าย) */
-        #f1-car-img {
+        .progress-fill::after {
+            content: '';
             position: absolute;
-            top: 50%;
-            right: -300px; /* เริ่มต้นซ่อนอยู่นอกจอฝั่งขวา!! */
-            transform: translateY(-50%); /* ลบ rotateY(180deg) ทิ้ง!! */
-            width: 250px; /* ปรับขนาดรูปรถให้ใหญ่ตามต้องการ!! */
-            z-index: 10;
-            filter: drop-shadow(-5px 0 2px rgba(255,0,0,0.6)); /* เงาแดงวิ่งตามหลังรถ!! */
+            right: -4px;
+            top: -4px;
+            width: 12px;
+            height: 12px;
+            background: #fff;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.2s;
         }
 
-        .run-animation #f1-car-img {
-            animation: driveCarRevImg 1.5s ease-in-out forwards;
-        }
-        .run-animation .bio-container {
-            animation: revealTextRev 1.5s ease-in-out forwards;
-        }
-        .run-animation .skid-mark {
-            animation: revealMark 1.5s ease-in-out forwards;
+        .player-card:hover .progress-fill::after {
+            opacity: 1; /* จุดขาวๆ โผล่มาตอนเอาเมาส์ชี้แบบ Spotify */
         }
 
-        @keyframes driveCarRevImg {
-            0% { right: -300px; }
-            100% { right: 100%; } 
-        }
-        @keyframes revealTextRev {
-            0% { clip-path: inset(0 0 0 100%); }
-            100% { clip-path: inset(0 0 0 0); } 
-        }
-        @keyframes revealMark {
-            0% { clip-path: inset(0 0 0 100%); width: 0%;}
-            100% { clip-path: inset(0 0 0 0); width: 100%;} 
+        .time-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: #a0a0a0;
         }
 
+        /* --- โซเชียลไอคอน (ปุ่ม Control เพลง) --- */
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+        }
 
-        /* ปุ่มลิงก์ */
-        .links-container { display: flex; flex-direction: column; gap: 18px; width: 100%; max-width: 480px; }
-        .link-btn {
-            display: flex; align-items: center; padding: 18px 25px;
-            background: #111; color: #eee; text-decoration: none; font-size: 18px; font-weight: bold; letter-spacing: 1px;
-            border: 2px solid #222; border-radius: 4px; 
-            transform: skewX(-6deg); transition: all 0.3s ease; position: relative; overflow: hidden;
+        .controls a {
+            color: #fff;
+            font-size: 20px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            opacity: 0.8;
         }
-        .link-btn i, .link-btn span { transform: skewX(6deg); }
-        .link-btn i { margin-right: 18px; font-size: 26px; width: 35px; text-align: center; color: #fff; }
-        .link-btn:hover {
-            border-color: #ff0000; background: #1a1a1a; color: #fff;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.6), inset 0 0 10px rgba(255, 0, 0, 0.2);
-            transform: skewX(-6deg) scale(1.03); 
+
+        .controls a.play-btn {
+            font-size: 42px; /* ปุ่มกลางใหญ่สุด */
+            opacity: 1;
         }
-        
-        .quote-style { font-style: italic; color: #bbb; }
-        .fav-title { color: #ff0000; font-weight: bold; }
+
+        .controls a:hover {
+            opacity: 1;
+            transform: scale(1.1);
+            color: #ff2800; /* ชี้แล้วเปลี่ยนเป็นสีแดง */
+        }
+
     </style>
 </head>
 <body>
 
-    <div id="flash"></div>
-
-    <div id="intro">
-        <div class="shift-lights">
-            <div class="light l-1"></div>
-            <div class="light l-2"></div>
-            <div class="light l-3"></div>
-        </div>
-        <div class="enter-text">[ Click to enter ]</div>
-    </div>
-
-    <div id="main">
-        <img src="https://i.pravatar.cc/300?img=11" alt="Profile" class="profile-img">
-        <div class="profile-name">Pongsakorn Phanthumit</div>
+    <div class="player-card">
         
-                <div class="bio-wrapper" id="bio-wrapper">
-            <div class="skid-mark"></div> <img src="https://i.imgur.com/rM7pW6f.png" alt="F1 Car" id="f1-car-img">
-            <div class="bio-container">
-                <span class="quote-style">"I love motorsports and hobbies where if you fuck up you die."</span><br><br>
-                <span class="fav-title">Favorite Teams:</span><br>
+        <div class="cover-art">
+            <img src="https://images.unsplash.com/photo-1614200187524-dc4b892acf16?q=80&w=800&auto=format&fit=crop" alt="Scuderia Ferrari Cover">
+        </div>
+
+        <div class="header-info">
+            <div class="title-group">
+                <h1>Pongsakorn</h1>
+                <p>Motorsports Hub</p>
+            </div>
+            <i class="fa-solid fa-heart heart-icon"></i>
+        </div>
+
+        <div class="bio-box">
+            <span class="quote">"I love motorsports and hobbies where if you fuck up you die."</span>
+            <div class="teams">
+                <span class="highlight">Favorite Teams:</span><br>
                 MotoGP: Aprilia & Ducati<br>
                 F1: Scuderia Ferrari<br>
                 WEC: Ferrari | WRC: Toyota
             </div>
         </div>
 
-
-        <div class="links-container">
-            <a href="https://github.com/themostpoordev" target="_blank" class="link-btn">
-                <i class="fa-brands fa-github"></i><span>themostpoordev</span>
-            </a>
-            <a href="https://www.roblox.com/users/profile?username=CGJKGGK" target="_blank" class="link-btn">
-                <i class="fa-solid fa-gamepad"></i><span>CGJKGGK (Roblox)</span>
-            </a>
-            <a href="https://open.spotify.com/user/pongsakorn" target="_blank" class="link-btn">
-                <i class="fa-brands fa-spotify" style="color: #1DB954;"></i><span>pongsakorn</span>
-            </a>
-            <a href="https://www.tiktok.com/@facex26" target="_blank" class="link-btn">
-                <i class="fa-brands fa-tiktok"></i><span>facex26</span>
-            </a>
-            <a href="https://www.xbox.com/play/user/RuSure9496" target="_blank" class="link-btn">
-                <i class="fa-brands fa-xbox" style="color: #107C10;"></i><span>RuSure9496</span>
-            </a>
-            <a href="https://www.youtube.com/@pongsakornPTM" target="_blank" class="link-btn">
-                <i class="fa-brands fa-youtube" style="color: #FF0000;"></i><span>pongsakorn PTM</span>
-            </a>
-            <a href="https://www.instagram.com/wouldyouguarantee" target="_blank" class="link-btn">
-                <i class="fa-brands fa-instagram" style="color: #E1306C;"></i><span>wouldyouguarantee</span>
-            </a>
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+            <div class="time-labels">
+                <span>1:16</span>
+                <span>-2:04</span>
+            </div>
         </div>
+
+        <div class="controls">
+            <a href="https://github.com/themostpoordev" target="_blank" title="GitHub"><i class="fa-brands fa-github"></i></a>
+            <a href="https://www.tiktok.com/@facex26" target="_blank" title="TikTok"><i class="fa-solid fa-backward-step"></i></a> <a href="https://www.youtube.com/@pongsakornPTM" target="_blank" class="play-btn" title="YouTube"><i class="fa-solid fa-circle-play"></i></a>
+            
+            <a href="https://www.instagram.com/wouldyouguarantee" target="_blank" title="Instagram"><i class="fa-solid fa-forward-step"></i></a> <a href="https://www.roblox.com/users/profile?username=CGJKGGK" target="_blank" title="Roblox"><i class="fa-solid fa-gamepad"></i></a>
+        </div>
+
     </div>
 
-    <script>
-        const intro = document.getElementById('intro');
-        const main = document.getElementById('main');
-        const flash = document.getElementById('flash');
-        const bioWrapper = document.getElementById('bio-wrapper');
-
-        intro.addEventListener('click', () => {
-            flash.style.display = 'block';
-            setTimeout(() => {
-                flash.style.opacity = '0';
-                flash.style.transition = 'opacity 0.6s ease-out';
-            }, 50); 
-            
-            setTimeout(() => {
-                intro.style.display = 'none'; 
-                flash.style.display = 'none'; 
-                
-                document.body.style.overflow = 'auto';
-                document.body.classList.add('bg-carbon');
-                
-                main.style.display = 'flex'; 
-                
-                setTimeout(() => {
-                    main.style.opacity = '1'; 
-                    // พอหน้าเว็บสว่างปุ๊บ สั่งให้รถ F1 ออกตัว (ขวาไปซ้าย เดินหน้า!!) ทันที!
-                    bioWrapper.classList.add('run-animation');
-                }, 100);
-            }, 500); 
-        });
-    </script>
 </body>
 </html>
