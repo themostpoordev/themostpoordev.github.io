@@ -14,9 +14,9 @@
         }
 
         body {
-            /* พื้นหลังดาร์กๆ มีแสงสีแดงเข้มๆ เฟดมาจากข้างบน */
-            background-color: #0a0a0a;
-            background-image: radial-gradient(circle at top, #330000 0%, #0a0a0a 70%);
+            /* พื้นหลังสีดำเข้ม มีแสงสีแดงจางๆ สไตล์ดาร์ก/Motorsports */
+            background-color: #050505;
+            background-image: radial-gradient(circle at top, #260000 0%, #050505 80%);
             color: #fff;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             display: flex;
@@ -26,48 +26,65 @@
             padding: 20px;
         }
 
-        /* --- กล่องหลัก (โครงสร้างแบบปกติ เสถียร 100%) --- */
-        .profile-card {
+        /* คอนเทนเนอร์หลักสำหรับจัดให้อยู่ตรงกลางจอ */
+        .container {
             width: 100%;
             max-width: 420px;
-            background: rgba(20, 20, 20, 0.85);
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* ระยะห่างระหว่างกล่องบนกับกล่องล่าง */
+        }
+
+        /* =========================================
+           --- 🏎️ กล่องหลัก (Profile Card) 🏎️ --- 
+           ========================================= */
+        .profile-card {
+            background: rgba(15, 15, 15, 0.85);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 40, 0, 0.2); /* ขอบสีแดง Scuderia อ่อนๆ */
-            border-radius: 20px;
+            border: 1px solid rgba(255, 40, 0, 0.2); /* ขอบแดงเรืองแสงนิดๆ */
+            border-radius: 16px;
             padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(255, 40, 0, 0.05);
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        /* --- รูปโปรไฟล์ & ชื่อ --- */
+        /* รูปโปรไฟล์ & ชื่อ */
         .profile-pic {
             width: 100px;
             height: 100px;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid #ff2800; /* กรอบแดง */
-            margin-bottom: 15px;
-            box-shadow: 0 0 15px rgba(255, 40, 0, 0.3);
+            border: 2px solid #ff2800; /* กรอบแดง Scuderia */
+            margin-bottom: 12px;
+            box-shadow: 0 0 15px rgba(255, 40, 0, 0.4);
         }
 
         .profile-name {
             font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            letter-spacing: 1px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
         }
 
-        /* --- กล่อง Bio ย่อย --- */
+        .profile-link {
+            font-size: 13px;
+            color: #ff2800;
+            margin-bottom: 20px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* กล่อง Bio */
         .bio-box {
             width: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 12px;
             padding: 16px;
             font-size: 14px;
-            color: #ddd;
+            color: #ccc;
             text-align: center;
             line-height: 1.6;
             margin-bottom: 25px;
@@ -75,6 +92,7 @@
 
         .bio-box .quote {
             font-style: italic;
+            color: #fff;
             margin-bottom: 10px;
             display: block;
         }
@@ -84,26 +102,25 @@
             font-weight: bold;
         }
 
-        /* --- โซเชียลไอคอน --- */
+        /* โซเชียลไอคอน */
         .social-icons {
             display: flex;
-            gap: 15px;
+            gap: 12px;
             flex-wrap: wrap;
             justify-content: center;
-            margin-bottom: 30px;
         }
 
         .social-icons a {
-            width: 45px;
-            height: 45px;
+            width: 42px;
+            height: 42px;
             display: flex;
             justify-content: center;
             align-items: center;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
+            border-radius: 10px;
             color: #fff;
-            font-size: 20px;
+            font-size: 18px;
             text-decoration: none;
             transition: all 0.3s ease;
         }
@@ -115,58 +132,158 @@
             box-shadow: 0 5px 15px rgba(255, 40, 0, 0.4);
         }
 
-        /* --- 🎵 กล่องเครื่องเล่นเพลง (YouTube) 🎵 --- */
-        .music-widget {
-            width: 100%;
+        /* =========================================
+           --- 🎵 กล่องย่อย (Spotify Player) 🎵 --- 
+           ========================================= */
+        .music-card {
+            background: rgba(18, 18, 18, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background: #000;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
         }
 
-        /* บีบความสูง iframe ให้โชว์แค่แถบเล่นเพลงด้านล่าง */
-        .music-widget iframe {
-            width: 100%;
-            height: 90px; 
-            display: block;
+        .music-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+        }
+
+        /* ดึงรูปปกจาก Thumbnail YouTube */
+        .music-cover {
+            width: 48px;
+            height: 48px;
+            border-radius: 6px;
+            object-fit: cover;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+        }
+
+        .music-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .music-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 160px;
+        }
+
+        .music-artist {
+            font-size: 12px;
+            color: #b3b3b3;
+        }
+
+        .music-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #fff;
+            font-size: 18px;
+        }
+
+        .music-controls i {
+            cursor: pointer;
+            transition: color 0.2s, transform 0.2s;
+        }
+
+        .music-controls i:hover {
+            color: #1DB954; /* สีเขียว Spotify ตอนชี้ */
+            transform: scale(1.1);
+        }
+
+        .play-btn {
+            font-size: 24px;
+        }
+
+        /* ซ่อน Iframe ของ YouTube ไม่ให้รกตา */
+        #hidden-yt {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border: none;
+            visibility: hidden;
         }
     </style>
 </head>
 <body>
 
-    <div class="profile-card">
+    <div class="container">
         
-        <img src="https://i.pravatar.cc/300?img=11" alt="Profile" class="profile-pic">
-        <div class="profile-name">Pongsakorn</div>
+        <div class="profile-card">
+            <img src="https://i.pravatar.cc/300?img=11" alt="Profile" class="profile-pic">
+            <div class="profile-name">Pongsakorn</div>
+            <a href="#" class="profile-link">guns.lol/Pongsakorn</a>
 
-        <div class="bio-box">
-            <span class="quote">"I love motorsports and hobbies where if you fuck up you die."</span>
-            <span class="highlight">Favorite Teams:</span><br>
-            MotoGP: Aprilia & Ducati<br>
-            F1: Scuderia Ferrari<br>
-            WEC: Ferrari | WRC: Toyota
+            <div class="bio-box">
+                <span class="quote">"I love motorsports and hobbies where if you fuck up you die."</span>
+                <span class="highlight">Favorite Teams:</span><br>
+                MotoGP: Aprilia & Ducati<br>
+                F1: Scuderia Ferrari<br>
+                WEC: Ferrari | WRC: Toyota
+            </div>
+
+            <div class="social-icons">
+                <a href="https://github.com/themostpoordev" target="_blank"><i class="fa-brands fa-github"></i></a>
+                <a href="https://www.roblox.com/users/profile?username=CGJKGGK" target="_blank"><i class="fa-solid fa-gamepad"></i></a>
+                <a href="#" target="_blank"><i class="fa-brands fa-spotify"></i></a>
+                <a href="https://www.tiktok.com/@facex26" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
+                <a href="https://www.xbox.com/play/user/RuSure9496" target="_blank"><i class="fa-brands fa-xbox"></i></a>
+                <a href="https://www.youtube.com/@pongsakornPTM" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+                <a href="https://www.instagram.com/wouldyouguarantee" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+            </div>
         </div>
 
-        <div class="social-icons">
-            <a href="https://www.instagram.com/wouldyouguarantee" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-            <a href="https://www.tiktok.com/@facex26" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
-            <a href="https://www.youtube.com/@pongsakornPTM" target="_blank"><i class="fa-brands fa-youtube"></i></a>
-            <a href="https://github.com/themostpoordev" target="_blank"><i class="fa-brands fa-github"></i></a>
-            <a href="https://www.roblox.com/users/profile?username=CGJKGGK" target="_blank"><i class="fa-solid fa-gamepad"></i></a>
-        </div>
-
-        <div class="music-widget">
-            <iframe 
-                src="https://www.youtube.com/embed/7bbYFpvhCcI?start=125" 
-                title="YouTube video player" 
-                frameborder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                allowfullscreen>
-            </iframe>
+        <div class="music-card">
+            <div class="music-left">
+                <img src="https://img.youtube.com/vi/7bbYFpvhCcI/hqdefault.jpg" alt="Cover" class="music-cover">
+                <div class="music-info">
+                    <div class="music-title">ไม่เคยถูกรัก (Never Been Loved)</div>
+                    <div class="music-artist">URBOYTJ FT. Three Man Down</div>
+                </div>
+            </div>
+            
+            <div class="music-controls">
+                <i class="fa-solid fa-backward-step"></i>
+                <i class="fa-solid fa-play play-btn" id="play-pause-btn"></i>
+                <i class="fa-solid fa-forward-step"></i>
+            </div>
         </div>
 
     </div>
+
+    <iframe id="hidden-yt" src="https://www.youtube.com/embed/7bbYFpvhCcI?enablejsapi=1&start=125" allow="autoplay"></iframe>
+
+    <script>
+        const iframeWindow = document.getElementById('hidden-yt').contentWindow;
+        const playPauseBtn = document.getElementById('play-pause-btn');
+        let isPlaying = false;
+
+        playPauseBtn.addEventListener('click', () => {
+            if (!isPlaying) {
+                // สั่งเล่นเพลง
+                iframeWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                playPauseBtn.classList.remove('fa-play');
+                playPauseBtn.classList.add('fa-pause');
+                isPlaying = true;
+            } else {
+                // สั่งหยุดเพลง
+                iframeWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+                playPauseBtn.classList.remove('fa-pause');
+                playPauseBtn.classList.add('fa-play');
+                isPlaying = false;
+            }
+        });
+    </script>
 
 </body>
 </html>
