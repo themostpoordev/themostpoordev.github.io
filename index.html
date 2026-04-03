@@ -80,52 +80,75 @@
             text-align: center;
         }
 
-        /* 🏎️ เอฟเฟกต์ F1 Drive-By Reveal 🏎️ */
+        /* 🏎️ เอฟเฟกต์ F1 Skid Mark Reveal (เดินหน้า!!) 🏎️ */
         .bio-wrapper {
             position: relative;
             width: 100%; max-width: 600px;
             margin-bottom: 45px;
             overflow: hidden; /* ซ่อนรถตอนมันยังไม่วิ่งเข้ามา และตอนวิ่งออกไป */
-            border-radius: 8px;
-            border: 1px solid rgba(255, 0, 0, 0.2); 
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3), inset 0 0 10px rgba(0,0,0,0.8); 
-            background: rgba(0,0,0,0.75); 
+            /* ลบขอบและพื้นหลังเดิมออกหมด */
+            background: transparent;
+            box-shadow: none;
+            border: none;
+        }
+
+        /* รอยยาง (Skid Mark) บนพื้นหลังคาร์บอน */
+        .skid-mark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 0%; /* เริ่มต้นซ่อนอยู่จากด้านขวา */
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(0,0,0,0.9) 0%, rgba(10,10,10,0.7) 100%);
+            z-index: 1;
+            /* ปาดเปิดรอยยางจากด้านขวา */
+            clip-path: inset(0 0 0 100%); 
         }
 
         .bio-container {
             padding: 20px; 
-            color: #ccc; font-size: 15px; line-height: 1.8; text-align: center;
+            color: #eee; font-size: 15px; line-height: 1.8; text-align: center;
+            z-index: 2; /* ทับรอยยาง */
             /* ซ่อนข้อความทั้งหมดจากด้านขวาด้วย clip-path */
-            clip-path: inset(0 100% 0 0); 
+            clip-path: inset(0 0 0 100%); 
         }
 
         .f1-car {
             position: absolute;
             top: 50%;
-            left: -100px; /* เริ่มต้นซ่อนอยู่นอกจอฝั่งซ้าย */
-            transform: translateY(-50%);
-            font-size: 35px;
+            right: -200px; /* เริ่มต้นซ่อนอยู่นอกจอฝั่งขวา!! */
+            transform: translateY(-50%) rotateY(180deg); /* สลับด้านรูปรถให้เดินหน้า!! */
+            font-size: 120px; /* ขยายรถให้ใหญ่เต็มกรอบ!! */
             z-index: 10;
-            filter: drop-shadow(5px 0 2px rgba(255,0,0,0.5)); /* เงาแดงวิ่งตาม */
+            filter: drop-shadow(-5px 0 2px rgba(255,0,0,0.6)); /* เงาแดงวิ่งตามหลังรถ!! */
         }
 
         /* คลาสที่ใช้สั่งให้ทำงานตอนเปลี่ยนหน้า */
         .run-animation .f1-car {
-            /* รถวิ่งจากซ้ายไปขวา ใช้เวลา 1.5 วิ */
-            animation: driveCar 1.5s ease-in-out forwards;
+            /* รถวิ่งจากขวาไปซ้าย ใช้เวลา 1.5 วิ */
+            animation: driveCarRev 1.5s ease-in-out forwards;
         }
         .run-animation .bio-container {
             /* ข้อความเปิดตามหลังรถ ใช้เวลา 1.5 วิ เท่ากัน */
-            animation: revealText 1.5s ease-in-out forwards;
+            animation: revealTextRev 1.5s ease-in-out forwards;
+        }
+        .run-animation .skid-mark {
+            /* รอยยางเปิดตามหลังรถ ใช้เวลา 1.5 วิ เท่ากัน */
+            animation: revealMark 1.5s ease-in-out forwards;
         }
 
-        @keyframes driveCar {
-            0% { left: -50px; }
-            100% { left: 100%; } /* ทะลุกล่องไปเลย */
+        @keyframes driveCarRev {
+            0% { right: -200px; }
+            100% { right: 100%; } /* ทะลุกล่องไปเลย */
         }
-        @keyframes revealText {
-            0% { clip-path: inset(0 100% 0 0); }
+        @keyframes revealTextRev {
+            0% { clip-path: inset(0 0 0 100%); }
             100% { clip-path: inset(0 0 0 0); } /* เปิดข้อความจนสุด */
+        }
+        @keyframes revealMark {
+            0% { clip-path: inset(0 0 0 100%); width: 0%;}
+            100% { clip-path: inset(0 0 0 0); width: 100%;} /* เปิดรอยยางจนสุด */
         }
 
         /* ปุ่มลิงก์ */
@@ -144,7 +167,7 @@
             transform: skewX(-6deg) scale(1.03); 
         }
         
-        .quote-style { font-style: italic; color: #999; }
+        .quote-style { font-style: italic; color: #bbb; }
         .fav-title { color: #ff0000; font-weight: bold; }
     </style>
 </head>
@@ -166,7 +189,7 @@
         <div class="profile-name">Pongsakorn Phanthumit</div>
         
         <div class="bio-wrapper" id="bio-wrapper">
-            <div class="f1-car">🏎️💨</div>
+            <div class="skid-mark"></div> <div class="f1-car">🏎️💨</div>
             <div class="bio-container">
                 <span class="quote-style">"I love motorsports and hobbies where if you fuck up you die."</span><br><br>
                 <span class="fav-title">Favorite Teams:</span><br>
@@ -225,7 +248,7 @@
                 
                 setTimeout(() => {
                     main.style.opacity = '1'; 
-                    // พอหน้าเว็บสว่างปุ๊บ สั่งให้รถ F1 ออกตัวทันที!
+                    // พอหน้าเว็บสว่างปุ๊บ สั่งให้รถ F1 ออกตัว (ขวาไปซ้าย เดินหน้า!!) ทันที!
                     bioWrapper.classList.add('run-animation');
                 }, 100);
             }, 500); 
