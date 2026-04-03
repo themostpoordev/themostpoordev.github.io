@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pongsakorn | Motorsports Hub</title>
+    <title>Pongsakorn | Lando Neon Hub</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* --- CSS Reset & Global Settings --- */
@@ -17,11 +17,13 @@
             transition: background 0.5s ease;
         }
 
-        /* --- ลายคาร์บอนไฟเบอร์สำหรับหน้าหลัก (สไตล์หนังเจาะรู) --- */
-        .bg-carbon {
+        /* --- 🛹 ลาย "ลายขวัญ" (Squiggles) สไตล์ Lando Norris --- */
+        /* ใช้ SVG เป็นพื้นหลังเพื่อความคมชัดและเบา */
+        .bg-lando {
             background-color: #050505;
-            background-image: radial-gradient(#222 1.5px, transparent 1.5px);
-            background-size: 20px 20px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 800'%3E%3Cpath fill='%2300ff00' d='M800,0C358.2,0,0,358.2,0,800h1600C1600,358.2,1241.8,0,800,0z' opacity='0.05'/%3E%3Cpath fill='%2300ff00' d='M0,800h1600C1600,358.2,1241.8,0,800,0C358.2,0,0,358.2,0,800z' opacity='0.05'/%3E%3C/svg%3E");
+            background-size: 1500px 750px;
+            background-position: center;
         }
 
         /* --- เอฟเฟกต์แสง Flash ตอนเปลี่ยนหน้า --- */
@@ -42,15 +44,15 @@
         .shift-lights { display: flex; gap: 15px; margin-bottom: 25px; }
         .light { width: 20px; height: 20px; border-radius: 50%; background: #222; transition: all 0.2s ease; box-shadow: 0 0 5px rgba(0,0,0,0.5); }
         
-        /* 🔥 เอฟเฟกต์ตอนเอาเมาส์ชี้หน้าแรก (Hover) 🔥 */
-        #intro:hover .l-1 { background: #00ff00; box-shadow: 0 0 20px #00ff00; }
-        #intro:hover .l-2 { background: #ffaa00; box-shadow: 0 0 20px #ffaa00; transition-delay: 0.15s; }
-        #intro:hover .l-3 { background: #ff0000; box-shadow: 0 0 20px #ff0000; animation: blink 0.15s infinite; animation-delay: 0.3s; }
+        /* 🔥 เอฟเฟกต์ไฟ Shift Light ตอน Hover (สไตล์ Lando Neon) 🔥 */
+        #intro:hover .l-1 { background: #00ff00; box-shadow: 0 0 20px #00ff00; } /* เขียว */
+        #intro:hover .l-2 { background: #00ff00; box-shadow: 0 0 20px #00ff00; transition-delay: 0.15s; } /* เขียว Neon */
+        #intro:hover .l-3 { background: #00ff00; box-shadow: 0 0 20px #00ff00; animation: blink 0.15s infinite; animation-delay: 0.3s; } /* เขียว Neon กะพริบ */
         
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
         
         .enter-text { font-size: 20px; font-weight: bold; letter-spacing: 4px; color: #444; transition: color 0.3s; text-transform: uppercase; }
-        #intro:hover .enter-text { color: #fff; text-shadow: 0 0 10px #fff; }
+        #intro:hover .enter-text { color: #fff; text-shadow: 0 0 10px #00ff00; } /* เรืองแสงเขียว Neon */
 
         /* --- หน้าหลัก (Main Page) --- */
         #main {
@@ -62,30 +64,34 @@
         /* รูปโปรไฟล์วงกลม โหดๆ */
         .profile-img {
             width: 140px; height: 140px; border-radius: 50%;
-            border: 4px solid #2a2a2a; object-fit: cover; margin-bottom: 20px;
-            box-shadow: 0 0 25px rgba(0,0,0,0.8);
+            border: 4px solid #00ff00; /* ขอบเขียวเรืองแสง */
+            object-fit: cover; margin-bottom: 20px;
+            box-shadow: 0 0 25px rgba(0,255,0,0.5); /* เรืองแสงเขียว Neon */
             transition: border-color 0.3s;
         }
-        .profile-img:hover { border-color: #ff0000; } /* ชี้แล้วขอบแดง */
+        .profile-img:hover { border-color: #fff; box-shadow: 0 0 25px rgba(255,255,255,0.8); } /* ชี้แล้วขอบขาว */
 
-        /* ชื่อโชว์หล่อๆ */
+        /* ชื่อโชว์หล่อๆ (สไตล์ Lando) */
         .profile-name {
-            font-size: 24px; font-weight: bold; letter-spacing: 2px;
+            font-size: 28px; font-weight: bold; letter-spacing: 2px;
             text-transform: uppercase; margin-bottom: 25px;
-            text-shadow: 0 0 10px rgba(255, 0, 0, 0.4);
+            color: #00ff00; /* เขียวเรืองแสง */
+            text-shadow: 0 0 15px #00ff00;
+            font-family: 'Montserrat', sans-serif; /* แนะนำให้โหลด Montserrat เพิ่มใน <head> */
             text-align: center;
         }
 
-        /* 🛡️ สไตล์กล่อง Bio: Helmet Visor (แพง คลีน) 🛡️ */
+        /* 🛡️ สไตล์กล่อง Bio: Helmet Visor (สไตล์ Lando Neon) 🛡️ */
         .bio-container {
             max-width: 600px; text-align: center; margin-bottom: 45px;
-            min-height: 130px; color: #ccc; font-size: 15px; line-height: 1.8;
+            min-height: 130px; color: #fff; font-size: 15px; line-height: 1.8;
             background: rgba(0,0,0,0.7); /* สีดำโปร่งแสง */
             padding: 20px; border-radius: 8px;
-            border: 1px solid rgba(255, 0, 0, 0.2); /* ขอบแดงจางๆ */
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5), inset 0 0 10px rgba(0,0,0,0.8); /* เรืองแสง */
+            border: 1px solid rgba(0, 255, 0, 0.2); /* ขอบเขียวเรืองแสงจางๆ */
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5), inset 0 0 10px rgba(0,0,0,0.8); /* เรืองแสงเขียว Neon */
+            backdrop-filter: blur(5px); /* เบลอฉากหลัง */
         }
-        .cursor { display: inline-block; width: 10px; height: 18px; background: #ff0000; animation: blinkCursor 0.8s infinite; vertical-align: middle; margin-left: 3px; }
+        .cursor { display: inline-block; width: 10px; height: 18px; background: #00ff00; animation: blinkCursor 0.8s infinite; vertical-align: middle; margin-left: 3px; }
         @keyframes blinkCursor { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
         /* Container สำหรับปุ่มลิงก์ */
@@ -103,15 +109,18 @@
         
         /* 🔥 เอฟเฟกต์ตอนชี้ปุ่มลิงก์ (Hover) 🔥 */
         .link-btn:hover {
-            border-color: #ff0000; background: #1a1a1a; color: #fff;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.7), inset 0 0 10px rgba(255, 0, 0, 0.3);
+            border-color: #00ff00; /* ขอบเขียวเรืองแสง */
+            background: #1a1a1a;
+            color: #fff;
+            /* เรืองแสงเขียว Neon */
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.7), inset 0 0 10px rgba(0, 255, 0, 0.3);
             transform: skewX(-6deg) scale(1.03); 
         }
         
         /* สไตล์พิเศษสำหรับคำพูดโควทให้มันเป็นสีจางๆ เอียงๆ */
         .quote-style { font-style: italic; color: #999; }
-        /* สไตล์ให้คำว่า Favorite Teams เป็นสีแดง */
-        .fav-title { color: #ff0000; font-weight: bold; }
+        /* สไตล์ให้คำว่า Favorite Teams เป็นสีเขียวเรืองแสง */
+        .fav-title { color: #00ff00; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -144,13 +153,13 @@
                 <i class="fa-solid fa-gamepad"></i><span>CGJKGGK (Roblox)</span>
             </a>
             <a href="https://open.spotify.com/user/pongsakorn" target="_blank" class="link-btn">
-                <i class="fa-brands fa-spotify" style="color: #1DB954;"></i><span>pongsakorn</span>
+                <i class="fa-brands fa-spotify" style="color: #00ff00;"></i><span>pongsakorn</span>
             </a>
             <a href="https://www.tiktok.com/@facex26" target="_blank" class="link-btn">
                 <i class="fa-brands fa-tiktok"></i><span>facex26</span>
             </a>
             <a href="https://www.xbox.com/play/user/RuSure9496" target="_blank" class="link-btn">
-                <i class="fa-brands fa-xbox" style="color: #107C10;"></i><span>RuSure9496</span>
+                <i class="fa-brands fa-xbox" style="color: #00ff00;"></i><span>RuSure9496</span>
             </a>
             <a href="https://www.youtube.com/@pongsakornPTM" target="_blank" class="link-btn">
                 <i class="fa-brands fa-youtube" style="color: #FF0000;"></i><span>pongsakorn PTM</span>
@@ -208,9 +217,9 @@
                 intro.style.display = 'none'; 
                 flash.style.display = 'none'; 
                 
-                // ปลดล็อคให้เลื่อนจอได้ และใส่พื้นหลัง Carbon โหดๆ
+                // ปลดล็อคให้เลื่อนจอได้ และใส่พื้นหลัง "ลายขวัญ" สไตล์ Lando Neon
                 document.body.style.overflow = 'auto';
-                document.body.classList.add('bg-carbon');
+                document.body.classList.add('bg-lando');
                 
                 main.style.display = 'flex'; 
                 
