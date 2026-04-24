@@ -3,257 +3,501 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pongsakorn | Personal Hub</title>
+    <title>PONGSAKORN</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=Barlow+Condensed:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #ff2800; /* Ferrari Red */
-            --glass: rgba(15, 15, 15, 0.7);
-            --border: rgba(255, 255, 255, 0.1);
+            --red: #E8002D;
+            --red-dim: rgba(232, 0, 45, 0.15);
+            --red-glow: rgba(232, 0, 45, 0.4);
+            --bg: #080808;
+            --surface: #111111;
+            --line: rgba(255,255,255,0.07);
+            --text: #F0EDE8;
+            --muted: #5a5a5a;
         }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            background: #020202;
-            color: #fff;
-            font-family: 'Inter', -apple-system, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Mono', monospace;
             min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             overflow: hidden;
-            margin: 0;
-            /* พื้นหลังลายตารางจางๆ แบบเว็บ Dev */
-            background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
-            background-size: 40px 40px;
         }
 
-        /* แสงออร่าสีแดงวิ่งตามเมาส์ */
-        #glow {
+        /* ─── NOISE OVERLAY ─── */
+        body::before {
+            content: '';
+            position: fixed; inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.5;
+        }
+
+        /* ─── RED STRIPE ACCENT ─── */
+        body::after {
+            content: '';
             position: fixed;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(255, 40, 0, 0.12) 0%, transparent 70%);
+            top: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 1px;
+            height: 100vh;
+            background: linear-gradient(to bottom, transparent, var(--red) 40%, var(--red) 60%, transparent);
+            opacity: 0.08;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ─── CURSOR GLOW ─── */
+        #cursor-glow {
+            position: fixed;
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(232,0,45,0.07) 0%, transparent 65%);
             border-radius: 50%;
             pointer-events: none;
             transform: translate(-50%, -50%);
             z-index: 1;
+            transition: left 0.08s linear, top 0.08s linear;
         }
 
-        .container {
+        /* ─── MAIN CARD ─── */
+        .card {
             position: relative;
             z-index: 2;
-            width: 100%;
-            max-width: 380px;
+            width: 360px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 0;
+            animation: cardIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
         }
 
-        /* --- กล่องโปรไฟล์ Glassmorphism --- */
-        .glass-card {
-            background: var(--glass);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border: 1px solid var(--border);
-            border-radius: 30px;
-            padding: 35px 25px;
-            text-align: center;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        @keyframes cardIn {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
-        .profile-wrap {
+        /* ─── HEADER STRIP ─── */
+        .header-strip {
+            background: var(--red);
+            padding: 5px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 16px 16px 0 0;
+        }
+
+        .header-strip span {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 900;
+            font-size: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .header-dot {
+            width: 6px; height: 6px;
+            background: rgba(255,255,255,0.4);
+            border-radius: 50%;
+        }
+
+        /* ─── PROFILE BLOCK ─── */
+        .profile-block {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-top: none;
+            padding: 28px 24px 22px;
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .avatar-wrap {
             position: relative;
-            display: inline-block;
-            margin-bottom: 20px;
+            flex-shrink: 0;
         }
 
-        .profile-img {
-            width: 115px;
-            height: 115px;
-            border-radius: 50%;
+        .avatar {
+            width: 80px; height: 80px;
+            border-radius: 12px;
             object-fit: cover;
-            border: 2px solid var(--primary);
-            padding: 4px;
-            background: #000;
+            display: block;
+            filter: grayscale(20%);
         }
 
-        /* วงแหวนหมุนรอบรูป */
-        .profile-wrap::after {
-            content: '';
+        .avatar-badge {
             position: absolute;
-            top: -6px; left: -6px; right: -6px; bottom: -6px;
-            border: 2px solid var(--primary);
-            border-radius: 50%;
-            border-top-color: transparent;
-            border-bottom-color: transparent;
-            animation: spin 4s linear infinite;
+            bottom: -6px; right: -6px;
+            background: var(--red);
+            width: 20px; height: 20px;
+            border-radius: 6px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 9px;
+            border: 2px solid var(--bg);
         }
 
-        @keyframes spin { 100% { transform: rotate(360deg); } }
+        .profile-info { flex: 1; }
+
+        .tag-line {
+            font-family: 'DM Mono', monospace;
+            font-size: 9px;
+            color: var(--red);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
 
         .name {
-            font-size: 26px;
-            font-weight: 900;
-            letter-spacing: 1.5px;
-            margin-bottom: 5px;
-            background: linear-gradient(to bottom, #fff, #777);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 34px;
+            line-height: 1;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
         }
 
-        .bio-text {
-            font-size: 13.5px;
-            color: #aaa;
-            line-height: 1.6;
-            margin: 15px 0 25px;
+        .bio {
+            font-size: 10.5px;
+            color: var(--muted);
+            line-height: 1.7;
         }
 
-        .bio-text b { color: var(--primary); }
+        .bio em {
+            font-style: italic;
+            color: #888;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 10px;
+        }
+
+        .teams {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .team-tag {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 600;
+            font-size: 9.5px;
+            letter-spacing: 1px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            border: 1px solid var(--line);
+            color: var(--text);
+            background: rgba(255,255,255,0.03);
+            text-transform: uppercase;
+        }
+
+        .team-tag.hot {
+            border-color: rgba(232,0,45,0.4);
+            color: var(--red);
+            background: var(--red-dim);
+        }
+
+        /* ─── DIVIDER ─── */
+        .div-line {
+            height: 1px;
+            background: var(--line);
+            margin: 0;
+        }
+
+        /* ─── SOCIAL GRID ─── */
+        .social-block {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-top: none;
+            padding: 16px;
+        }
+
+        .social-label {
+            font-size: 8.5px;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 12px;
+            padding-left: 2px;
+        }
 
         .social-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
         }
 
-        .social-grid a {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            height: 45px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            text-decoration: none;
-            font-size: 18px;
-            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .social-grid a:hover {
-            background: var(--primary);
-            border-color: var(--primary);
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(255, 40, 0, 0.3);
-        }
-
-        .watermark {
-            margin-top: 25px;
-            font-size: 9px;
-            letter-spacing: 2px;
-            color: rgba(255,255,255,0.2);
-            font-weight: 600;
-        }
-
-        /* --- กล่องเพลง Spotify Style --- */
-        .spotify-widget {
-            background: rgba(18, 18, 18, 0.9);
-            backdrop-filter: blur(10px);
-            border-radius: 18px;
-            padding: 12px 18px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            border: 1px solid var(--border);
-        }
-
-        .song-cover {
-            width: 50px;
-            height: 50px;
+        .social-link {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--line);
             border-radius: 10px;
-            background: url('https://img.youtube.com/vi/7bbYFpvhCcI/hqdefault.jpg') center/cover;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            height: 44px;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 16px;
+            transition: all 0.25s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .play-btn-circle {
-            width: 38px;
-            height: 38px;
-            background: #fff;
-            color: #000;
-            border-radius: 50%;
+        .social-link::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: var(--red);
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+
+        .social-link i { position: relative; z-index: 1; }
+
+        .social-link:hover {
+            color: #fff;
+            border-color: var(--red);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(232,0,45,0.25);
+        }
+
+        .social-link:hover::before { opacity: 1; }
+
+        /* HoYoLab custom icon text */
+        .hoyolab-icon {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 900;
+            font-size: 11px;
+            letter-spacing: 0.5px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ─── MUSIC WIDGET ─── */
+        .music-block {
+            background: #0e0e0e;
+            border: 1px solid var(--line);
+            border-top: none;
+            border-radius: 0 0 16px 16px;
+            padding: 14px 16px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            margin-left: auto;
-            font-size: 16px;
-            transition: 0.2s;
+            gap: 12px;
         }
 
-        .play-btn-circle:hover { transform: scale(1.1); background: var(--primary); color: #fff; }
+        .music-cover {
+            width: 42px; height: 42px;
+            border-radius: 8px;
+            background: url('https://img.youtube.com/vi/7bbYFpvhCcI/hqdefault.jpg') center/cover;
+            flex-shrink: 0;
+            position: relative;
+        }
 
-        #yt-player { position: absolute; width: 0; height: 0; visibility: hidden; }
+        .music-cover::after {
+            content: '';
+            position: absolute; inset: 0;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .music-info { flex: 1; min-width: 0; }
+
+        .music-title {
+            font-size: 11.5px;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 3px;
+        }
+
+        .music-artist {
+            font-size: 9.5px;
+            color: var(--muted);
+        }
+
+        .music-eq {
+            display: flex;
+            align-items: flex-end;
+            gap: 2px;
+            height: 16px;
+            margin-right: 2px;
+        }
+
+        .eq-bar {
+            width: 3px;
+            background: var(--red);
+            border-radius: 2px;
+            animation: none;
+        }
+
+        .eq-bar:nth-child(1) { height: 8px; animation: eq1 0.6s ease-in-out infinite alternate; }
+        .eq-bar:nth-child(2) { height: 14px; animation: eq2 0.4s ease-in-out infinite alternate; }
+        .eq-bar:nth-child(3) { height: 6px; animation: eq3 0.7s ease-in-out infinite alternate; }
+        .eq-bar:nth-child(4) { height: 11px; animation: eq1 0.5s ease-in-out infinite alternate; }
+
+        .eq-bar.paused { animation: none !important; height: 4px !important; }
+
+        @keyframes eq1 { to { height: 16px; } }
+        @keyframes eq2 { to { height: 6px; } }
+        @keyframes eq3 { to { height: 14px; } }
+
+        .play-btn {
+            width: 34px; height: 34px;
+            border-radius: 50%;
+            border: 1px solid var(--line);
+            background: rgba(255,255,255,0.04);
+            color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            font-size: 11px;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .play-btn:hover {
+            background: var(--red);
+            border-color: var(--red);
+            box-shadow: 0 0 16px var(--red-glow);
+        }
+
+        /* ─── FOOTER ─── */
+        .footer {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 8.5px;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,0.12);
+            text-transform: uppercase;
+        }
+
+        /* ─── STAGGER ANIMATIONS ─── */
+        .header-strip  { animation: cardIn 0.8s 0.0s cubic-bezier(0.16,1,0.3,1) both; }
+        .profile-block { animation: cardIn 0.8s 0.08s cubic-bezier(0.16,1,0.3,1) both; }
+        .social-block  { animation: cardIn 0.8s 0.16s cubic-bezier(0.16,1,0.3,1) both; }
+        .music-block   { animation: cardIn 0.8s 0.24s cubic-bezier(0.16,1,0.3,1) both; }
+        .footer        { animation: cardIn 0.8s 0.32s cubic-bezier(0.16,1,0.3,1) both; }
+
+        iframe { position: absolute; width: 0; height: 0; visibility: hidden; }
     </style>
 </head>
 <body>
 
-    <div id="glow"></div>
+<div id="cursor-glow"></div>
 
-    <div class="container">
-        <div class="glass-card">
-            <div class="profile-wrap">
-                <img src="https://cdn.phototourl.com/free/2026-04-03-b7b85193-d0ad-4625-ac94-2b4013d9699d.webp" class="profile-img">
-            </div>
-            
-            <h1 class="name">PONGSAKORN</h1>
-            
-            <div class="bio-text">
-                <i>"I love motorsports and hobbies where if you fuck up you die."</i><br><br>
-                <b>Favorite Teams:</b><br>
-                MotoGP: Aprilia & Ducati | F1: Scuderia Ferrari<br>
-                WEC: Ferrari | WRC: Toyota
-            </div>
+<div class="card">
 
-            <div class="social-grid">
-                <a href="https://github.com/themostpoordev" target="_blank"><i class="fa-brands fa-github"></i></a>
-                <a href="https://www.tiktok.com/@facex26" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
-                <a href="https://www.instagram.com/wouldyouguarantee" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-                <a href="https://www.youtube.com/@pongsakornPTM" target="_blank"><i class="fa-brands fa-youtube"></i></a>
-                <a href="https://www.xbox.com/play/user/RuSure9496" target="_blank"><i class="fa-brands fa-xbox"></i></a>
-                <a href="#" target="_blank"><i class="fa-brands fa-spotify"></i></a>
-            </div>
+    <!-- RED TOP STRIP -->
+    <div class="header-strip">
+        <span>Personal Hub</span>
+        <div class="header-dot"></div>
+        <span>Est. 2026</span>
+    </div>
 
-            <div class="watermark">HANDCRAFTED BY PONGSAKORN • © 2026</div>
+    <!-- PROFILE -->
+    <div class="profile-block">
+        <div class="avatar-wrap">
+            <img src="https://cdn.phototourl.com/free/2026-04-03-b7b85193-d0ad-4625-ac94-2b4013d9699d.webp" class="avatar" alt="Pongsakorn">
+            <div class="avatar-badge">🏎️</div>
         </div>
-
-        <div class="spotify-widget">
-            <div class="song-cover"></div>
-            <div style="flex: 1; min-width: 0;">
-                <div style="font-size: 13.5px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">ไม่เคยถูกรัก (Never Been Loved)</div>
-                <div style="font-size: 11px; color: #777;">URBOYTJ FT. Three Man Down</div>
+        <div class="profile-info">
+            <div class="tag-line">// Motorsports Fan</div>
+            <div class="name">PONGSAKORN</div>
+            <div class="bio">
+                <em>"I love motorsports and hobbies<br>where if you fuck up you die."</em>
             </div>
-            <div class="play-btn-circle" id="playBtn">
-                <i class="fa-solid fa-play"></i>
+            <div class="teams">
+                <span class="team-tag hot">Aprilia</span>
+                <span class="team-tag hot">Ducati</span>
+                <span class="team-tag hot">Ferrari F1</span>
+                <span class="team-tag">WEC Ferrari</span>
+                <span class="team-tag">WRC Toyota</span>
             </div>
         </div>
     </div>
 
-    <iframe id="yt-player" src="https://www.youtube.com/embed/7bbYFpvhCcI?enablejsapi=1&start=120" allow="autoplay"></iframe>
+    <!-- SOCIAL -->
+    <div class="social-block">
+        <div class="social-label">Find me on</div>
+        <div class="social-grid">
+            <a class="social-link" href="https://github.com/themostpoordev" target="_blank" title="GitHub">
+                <i class="fa-brands fa-github"></i>
+            </a>
+            <a class="social-link" href="https://www.tiktok.com/@facex26" target="_blank" title="TikTok">
+                <i class="fa-brands fa-tiktok"></i>
+            </a>
+            <a class="social-link" href="https://www.instagram.com/wouldyouguarantee" target="_blank" title="Instagram">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a class="social-link" href="https://www.youtube.com/@pongsakornPTM" target="_blank" title="YouTube">
+                <i class="fa-brands fa-youtube"></i>
+            </a>
+            <a class="social-link" href="https://www.xbox.com/play/user/RuSure9496" target="_blank" title="Xbox">
+                <i class="fa-brands fa-xbox"></i>
+            </a>
+            <a class="social-link" href="#" target="_blank" title="Spotify">
+                <i class="fa-brands fa-spotify"></i>
+            </a>
+            <a class="social-link" href="https://m.hoyolab.com/#/accountCenter/postList?id=266976269" target="_blank" title="HoYoLab">
+                <span class="hoyolab-icon">HYL</span>
+            </a>
+            <!-- Filler slot for even grid -->
+            <div style="border-radius:10px; border: 1px dashed rgba(255,255,255,0.04);"></div>
+        </div>
+    </div>
 
-    <script>
-        // แสงวิ่งตามเมาส์
-        const glow = document.getElementById('glow');
-        document.addEventListener('mousemove', (e) => {
-            glow.style.left = e.clientX + 'px';
-            glow.style.top = e.clientY + 'px';
-        });
+    <!-- MUSIC -->
+    <div class="music-block">
+        <div class="music-cover"></div>
+        <div class="music-info">
+            <div class="music-title">ไม่เคยถูกรัก (Never Been Loved)</div>
+            <div class="music-artist">URBOYTJ ft. Three Man Down</div>
+        </div>
+        <div class="music-eq" id="eqBars">
+            <div class="eq-bar paused"></div>
+            <div class="eq-bar paused"></div>
+            <div class="eq-bar paused"></div>
+            <div class="eq-bar paused"></div>
+        </div>
+        <div class="play-btn" id="playBtn">
+            <i class="fa-solid fa-play"></i>
+        </div>
+    </div>
 
-        // ควบคุมเพลง
-        const player = document.getElementById('yt-player').contentWindow;
-        const playBtn = document.getElementById('playBtn');
-        let isPlaying = false;
+    <div class="footer">Handcrafted by Pongsakorn &nbsp;·&nbsp; © 2026</div>
+</div>
 
-        playBtn.onclick = () => {
-            if(!isPlaying) {
-                player.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-                playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
-                isPlaying = true;
-            } else {
-                player.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-                playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
-                isPlaying = false;
-            }
-        };
-    </script>
+<iframe id="yt-player" src="https://www.youtube.com/embed/7bbYFpvhCcI?enablejsapi=1&start=120" allow="autoplay"></iframe>
+
+<script>
+    // Cursor glow
+    const glow = document.getElementById('cursor-glow');
+    document.addEventListener('mousemove', e => {
+        glow.style.left = e.clientX + 'px';
+        glow.style.top  = e.clientY + 'px';
+    });
+
+    // Music player
+    const player  = document.getElementById('yt-player').contentWindow;
+    const playBtn = document.getElementById('playBtn');
+    const eqBars  = document.querySelectorAll('.eq-bar');
+    let playing = false;
+
+    playBtn.addEventListener('click', () => {
+        if (!playing) {
+            player.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+            playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+            eqBars.forEach(b => b.classList.remove('paused'));
+        } else {
+            player.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+            playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+            eqBars.forEach(b => b.classList.add('paused'));
+        }
+        playing = !playing;
+    });
+</script>
 </body>
 </html>
